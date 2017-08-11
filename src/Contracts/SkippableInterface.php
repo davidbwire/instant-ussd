@@ -1,6 +1,6 @@
 <?php
 
-namespace Bitmarshals\InstantUssd\Mapper;
+namespace Bitmarshals\InstantUssd\Contracts;
 
 /**
  * Description of SkippableInterface
