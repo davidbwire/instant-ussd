@@ -1,0 +1,30 @@
+<?php
+
+return [
+    'db' => [
+        'driver' => '',
+        'options' => [
+        ]
+    ],
+    'ussd_menus' => [
+        "home_instant_ussd" => [
+            "menu_title" => "Welcome to InstantUssd",
+            "is_skippable" => false,
+            "menu_footer" => "Questions? Call +254712688559",
+            "menu_items_ranking_type" => self::RANKING_TYPE_PREDETERMINED,
+            "valid_values" => range(1, 2),
+            "loopset_name" => "",
+            // menu_items
+            "menu_items" => [
+                [
+                    "next_menu_id" => 'example_enter_full_name',
+                    "description" => "Register"
+                ],
+                [
+                    "next_menu_id" => 'example_my_account',
+                    "description" => "My account"
+                ]
+            ]
+        ]
+    ]
+];
