@@ -156,7 +156,13 @@ class InstantUssd {
     public function getServiceLocator() {
         $serviceLocator = $this->serviceLocator;
         if (!$serviceLocator instanceof ServiceManager) {
-            $this->serviceLocator = new ServiceManager($this->instantUssdConfig);
+            if (!array_key_exists('service_manager', $this->instantUssdConfig)) {
+                throw new Exception('service_manager key missing on instant_ussd config.');
+            }
+            $serviceManagerConfig = $this->instantUssdConfig['service_manager'];
+            // attach config for use by dbAdapter
+            $serviceManagerConfig['invokables']['config'] = $serviceManagerConfig;
+            $this->serviceLocator = new ServiceManager($serviceManagerConfig);
         }
         return $this->serviceLocator;
     }
