@@ -65,11 +65,12 @@ class InstantUssd {
 
     /**
      * 
+     * @param array $ussdData
      * @param EventManager $eventManager
      * @param string $errorMessage
      * @return Response
      */
-    public function showError(EventManager $eventManager, $errorMessage = null) {
+    public function showError($ussdData, EventManager $eventManager, $errorMessage = null) {
         $ussdData['error_message'] = $errorMessage;
         $results                   = $eventManager->triggerUntil(function($result) {
             return ($result instanceof Response);
