@@ -2,11 +2,16 @@
 
 use Bitmarshals\InstantUssd\Mapper;
 use Bitmarshals\InstantUssd\UssdMenuConfig;
+use Bitmarshals\InstantUssd;
 
 return [
     "instant_ussd" => [
+        "ussd_event_listener" => InstantUssd\UssdEventListener::class,
         'db' => [
-            'driver' => '',
+            'driver' => 'Mysqli',
+            'database' => 'instant_ussd',
+            'username' => '',
+            'password' => '',
             'options' => [
             ]
         ],
