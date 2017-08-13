@@ -33,6 +33,7 @@ return [
         ],
         "service_manager" => [
             "factories" => [
+                "dbAdapter" => Zend\Db\Adapter\AdapterServiceFactory::class,
                 Mapper\SkippableUssdMenuMapper::class => Mapper\SkippableUssdMenuMapperFactory::class,
                 Mapper\UssdLoopMapper::class => Mapper\UssdLoopMapperFactory::class,
                 Mapper\UssdMenusServedMapper::class => Mapper\UssdMenusServedMapperFactory::class
