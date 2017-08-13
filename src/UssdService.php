@@ -2,7 +2,6 @@
 
 namespace Bitmarshals\InstantUssd;
 
-use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\EventManager;
 use Bitmarshals\InstantUssd\UssdEventListener;
@@ -13,7 +12,7 @@ use Bitmarshals\InstantUssd\UssdMenuConfig;
  *
  * @author David Bwire
  */
-class UssdService implements EventManagerAwareInterface {
+class UssdService {
 
     const LOAD_MORE_KEY = "98";
     const GO_BACK_KEY   = "0";
