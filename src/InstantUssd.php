@@ -160,7 +160,7 @@ class InstantUssd {
             }
             $serviceManagerConfig = $this->instantUssdConfig['service_manager'];
             // attach config for use by dbAdapter
-            $serviceManagerConfig['invokables']['config'] = $this->instantUssdConfig;
+            $serviceManagerConfig['services']['config'] = $this->instantUssdConfig;
             $this->serviceLocator = new ServiceManager($serviceManagerConfig);
         }
         return $this->serviceLocator;
