@@ -66,7 +66,7 @@ class InstantUssd {
     /**
      * 
      * @param EventManager $eventManager
-     * @param type $errorMessage
+     * @param string $errorMessage
      * @return Response
      */
     public function showError(EventManager $eventManager, $errorMessage = null) {
