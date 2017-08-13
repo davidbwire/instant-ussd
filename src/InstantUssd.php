@@ -52,9 +52,13 @@ class InstantUssd {
 
     public function __construct(array $instantUssdConfig) {
 
-        $this->instantUssdConfig     = $instantUssdConfig;
-        $ussdResponseGenerator       = new UssdResponseGenerator();
-        $ussdService                 = new UssdService($this->getServiceLocator());
+        $this->instantUssdConfig = $instantUssdConfig;
+        $ussdResponseGenerator   = new UssdResponseGenerator();
+
+        $ussdMenusConfig   = $instantUssdConfig['ussd_menus'];
+        $ussdEventListener = $instantUssdConfig['ussd_event_listener'];
+
+        $ussdService                 = new UssdService($ussdMenusConfig, $ussdEventListener);
         $this->ussdService           = $ussdService;
         $this->ussdResponseGenerator = $ussdResponseGenerator;
     }
@@ -158,10 +162,10 @@ class InstantUssd {
             if (!array_key_exists('service_manager', $this->instantUssdConfig)) {
                 throw new Exception('service_manager key missing on instant_ussd config.');
             }
-            $serviceManagerConfig = $this->instantUssdConfig['service_manager'];
+            $serviceManagerConfig                       = $this->instantUssdConfig['service_manager'];
             // attach config for use by dbAdapter
             $serviceManagerConfig['services']['config'] = $this->instantUssdConfig;
-            $this->serviceLocator = new ServiceManager($serviceManagerConfig);
+            $this->serviceLocator                       = new ServiceManager($serviceManagerConfig);
         }
         return $this->serviceLocator;
     }
