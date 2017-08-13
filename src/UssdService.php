@@ -6,6 +6,7 @@ use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\EventManager;
 use Bitmarshals\InstantUssd\UssdEventListener;
+use Bitmarshals\InstantUssd\UssdMenuConfig;
 
 /**
  * Description of UssdService
@@ -240,9 +241,9 @@ class UssdService implements EventManagerAwareInterface {
      * 
      * @return EventManagerInterface
      */
-    public function getEventManager(): EventManagerInterface {
+    public function getEventManager(UssdMenuConfig $ussdMenuConfig): EventManagerInterface {
         if (!$this->eventManager) {
-            $this->setEventManager(new EventManager(new UssdEventListener()));
+            $this->setEventManager(new EventManager(new UssdEventListener($ussdMenuConfig)));
         }
         return $this->eventManager;
     }
