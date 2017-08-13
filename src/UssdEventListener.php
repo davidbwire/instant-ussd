@@ -25,11 +25,11 @@ class UssdEventListener extends SharedEventManager {
 
     /**
      * 
-     * @param UssdMenuConfig $ussdConfig
+     * @param UssdMenuConfig $ussdMenuConfig
      */
-    public function __construct(UssdMenuConfig $ussdConfig) {
+    public function __construct(UssdMenuConfig $ussdMenuConfig) {
 
-        $ussdMenusConfig             = $ussdConfig->getUssdMenus();
+        $ussdMenusConfig             = $ussdMenuConfig->getUssdMenus();
         $this->attachSystemEvents($ussdMenusConfig);
         $this->ussdResponseGenerator = new UssdResponseGenerator();
 
@@ -100,9 +100,9 @@ class UssdEventListener extends SharedEventManager {
     /**
      * Attaches common USSD menu events
      */
-    protected function attachSystemEvents(array &$ussdConfig) {
+    protected function attachSystemEvents(array &$ussdMenusConfig) {
         // needs to be passed as a call ba
-        $system = new System($ussdConfig);
+        $system = new System($ussdMenusConfig);
         // exit
         $this->attach(__NAMESPACE__, '_exit_', function($e) use ($system) {
             return call_user_func([$system, 'onExit'], $e);
