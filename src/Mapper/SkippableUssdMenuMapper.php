@@ -14,17 +14,15 @@ class SkippableUssdMenuMapper extends TableGateway implements SkippableInterface
 
     /**
      * 
-     * @param string $menuId
-     * @param array $where
-     * @param string $referenceTable
+     * @param array $where ["menu_id" => $menuId, "reference_id" => $referenceId]
+     * @param string $referenceTable The table you'd like to check if the given menu_id is skippable
      * @return bool
      */
-    public function isSkippable(string $menuId, array $where, $referenceTable = null): bool {
+    public function isSkippable(array $where, $referenceTable = null): bool {
 
         $sql    = $this->getSlaveSql($referenceTable);
         $select = $sql->select()
                 ->columns(['is_skippable'])
-                ->where(['menu_id' => $menuId])
                 ->where($where);
 
         $result = $sql->prepareStatementForSqlObject($select)
