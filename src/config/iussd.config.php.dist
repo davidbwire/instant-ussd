@@ -1,5 +1,8 @@
 <?php
 
+use Bitmarshals\InstantUssd\Mapper;
+use Bitmarshals\InstantUssd\UssdMenuConfig;
+
 return [
     'db' => [
         'driver' => '',
@@ -11,7 +14,7 @@ return [
             "menu_title" => "Welcome to InstantUssd",
             "is_skippable" => false,
             "menu_footer" => "Questions? Call +254712688559",
-            "menu_items_ranking_type" => self::RANKING_TYPE_PREDETERMINED,
+            "menu_items_ranking_type" => UssdMenuConfig::RANKING_TYPE_PREDETERMINED,
             "valid_values" => range(1, 2),
             "loopset_name" => "",
             // menu_items
@@ -25,6 +28,13 @@ return [
                     "description" => "My account"
                 ]
             ]
+        ]
+    ],
+    "service_manager" => [
+        "factories" => [
+            Mapper\SkippableUssdMenuMapper::class => Mapper\SkippableUssdMenuMapperFactory::class,
+            Mapper\UssdLoopMapper::class => Mapper\UssdLoopMapperFactory::class,
+            Mapper\UssdMenusServedMapper::class => Mapper\UssdMenusServedMapperFactory::class
         ]
     ]
 ];
