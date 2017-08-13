@@ -6,13 +6,15 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\EventManager;
 use Bitmarshals\InstantUssd\UssdEventListener;
 use Bitmarshals\InstantUssd\UssdMenuConfig;
+use Zend\EventManager\EventManagerAwareInterface;
+use Exception;
 
 /**
  * Description of UssdService
  *
  * @author David Bwire
  */
-class UssdService {
+class UssdService implements EventManagerAwareInterface {
 
     const LOAD_MORE_KEY = "98";
     const GO_BACK_KEY   = "0";
@@ -24,6 +26,23 @@ class UssdService {
      * @var EventManager 
      */
     protected $eventManager;
+
+    /**
+     *
+     * @var array 
+     */
+    protected $ussdMenusConfig = [];
+
+    /**
+     *
+     * @var string 
+     */
+    protected $ussdEventListener;
+
+    public function __construct(array $ussdMenusConfig, $ussdEventListener) {
+        $this->ussdMenusConfig = $ussdMenusConfig;
+        $this->setUssdEventListener($ussdEventListener);
+    }
 
     /**
      * Remove extraneous ussd values such as navigation and load more values
@@ -240,9 +259,13 @@ class UssdService {
      * 
      * @return EventManagerInterface
      */
-    public function getEventManager(UssdMenuConfig $ussdMenuConfig): EventManagerInterface {
+    public function getEventManager(): EventManagerInterface {
         if (!$this->eventManager) {
-            $this->setEventManager(new EventManager(new UssdEventListener($ussdMenuConfig)));
+            if (empty($this->ussdEventListener)) {
+                throw new Exception('UssdEventListener class not set.');
+            }
+            $class = $this->ussdEventListener;
+            $this->setEventManager(new EventManager(new $class($this->ussdMenusConfig)));
         }
         return $this->eventManager;
     }
@@ -256,6 +279,17 @@ class UssdService {
         // set a custom ussd event
         $eventManager->setEventPrototype(new UssdEvent('ussd'));
         $this->eventManager = $eventManager;
+    }
+
+    /**
+     * 
+     * @param string $ussdEventListener
+     */
+    protected function setUssdEventListener($ussdEventListener) {
+        if (!gettype($ussdEventListener) === 'string') {
+            throw new \Exception('ussd_event_listener should be a string.');
+        }
+        $this->ussdEventListener = $ussdEventListener;
     }
 
 }
