@@ -8,7 +8,6 @@ use Bitmarshals\InstantUssd\UssdService;
 use Zend\Http\PhpEnvironment\Response;
 use Zend\EventManager\EventManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Application\Mapper\UssdMenusServedMapper;
 use Bitmarshals\InstantUssd\Mapper\UssdMenusServedMapper;
 use Zend\ServiceManager\ServiceManager;
 
