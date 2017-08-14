@@ -21,7 +21,7 @@ class UssdMenusServedMapper extends TableGateway {
      * @param bool $isLoopEnd
      * @return mixed boolean|int
      */
-    public function push($sessionId, $menuId, $phoneNumber, $loopsetName = null, $isLoopEnd = false) {
+    public function push($sessionId, $menuId, $phoneNumber, $loopsetName = null, $isLoopEnd = 0) {
 
         $sql = $this->getSlaveSql();
 
