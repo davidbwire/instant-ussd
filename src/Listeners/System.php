@@ -3,11 +3,11 @@
 namespace Bitmarshals\InstantUssd\Listeners;
 
 use Bitmarshals\InstantUssd\UssdEvent;
-use Application\Mapper\UssdMenusServedMapper;
+use Bitmarshals\InstantUssd\Mapper\UssdMenusServedMapper;
 use Bitmarshals\InstantUssd\UssdResponseGenerator;
 use Zend\Http\PhpEnvironment\Response;
 use Exception;
-use Application\Mapper\UssdLoopMapper;
+use Bitmarshals\InstantUssd\Mapper\UssdLoopMapper;
 
 /**
  * Description of System
