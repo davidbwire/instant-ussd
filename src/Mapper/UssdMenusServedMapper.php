@@ -21,7 +21,7 @@ class UssdMenusServedMapper extends TableGateway {
      * @param bool $isLoopEnd
      * @return mixed boolean|int
      */
-    public function push($sessionId, $menuId, $phoneNumber, $loopsetName = null, $isLoopEnd = 0) {
+    public function push($sessionId, $menuId, $phoneNumber, $loopsetName = null, $isLoopEnd = false) {
 
         $sql = $this->getSlaveSql();
 
@@ -32,7 +32,7 @@ class UssdMenusServedMapper extends TableGateway {
             'session_id' => $sessionId,
             'phone_number' => $phoneNumber,
             'loopset_name' => $loopsetName,
-            'is_loop_end' => $isLoopEnd
+            'is_loop_end' => ($isLoopEnd ? 1 : 0)
         ]);
         $result = $sql->prepareStatementForSqlObject($insert)
                 ->execute();
