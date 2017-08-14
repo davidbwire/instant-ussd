@@ -10,6 +10,7 @@ use Zend\EventManager\EventManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Bitmarshals\InstantUssd\Mapper\UssdMenusServedMapper;
 use Zend\ServiceManager\ServiceManager;
+use Bitmarshals\InstantUssd\UssdMenuItem;
 
 /**
  * Description of InstantUssd
@@ -125,6 +126,36 @@ class InstantUssd {
             }, '_error_', $this, $ussdData);
 
             return $results->last();
+        }
+    }
+
+    /**
+     * 
+     * @param array $ussdData
+     * @param EventManager $eventManager
+     * @param string $nextMenuId
+     * @return Response
+     */
+    public function showNextMenuId(array $ussdData, EventManager $eventManager, $nextMenuId) {
+        // with the next_menu_id
+        // disable incoming cycle
+        $ussdData['is_incoming_data'] = false;
+        // don't use triggerUntil as it will prevent tracking
+        // try and render next menu
+        $outGoingCycleResults         = $eventManager->trigger($nextMenuId, $this, $ussdData);
+        $outGoingCycleResult          = $outGoingCycleResults->first();
+        // Try and find a response that's not a skippable
+        while ($outGoingCycleResult instanceof UssdMenuItem) {
+            // get the next menu
+            $nextMenuId           = $outGoingCycleResult->getNextMenuId();
+            $outGoingCycleResults = $eventManager->trigger($nextMenuId, $this, $ussdData);
+            $outGoingCycleResult  = $outGoingCycleResults->first();
+        }
+        //--- send data to user
+        if ($outGoingCycleResult instanceof Response) {
+            return $outGoingCycleResult;
+        } else {
+            return $this->showError($ussdData, $eventManager, "Error. Next screen could not be loaded.");
         }
     }
 
