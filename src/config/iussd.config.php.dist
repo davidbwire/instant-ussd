@@ -13,6 +13,8 @@ return [
             'username' => '',
             'password' => '',
             'options' => [
+                // see - http://bit.ly/2byorhL
+                'buffer_results' => true,
             ]
         ],
         'ussd_menus' => [
