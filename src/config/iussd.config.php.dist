@@ -8,10 +8,13 @@ return [
     "instant_ussd" => [
         "ussd_event_listener" => InstantUssd\UssdEventListener::class,
         'db' => [
-            'driver' => 'Mysqli',
+            'driver' => 'Mysqli', // Mysqli, Sqlsrv, Pdo_Sqlite, Pdo_Mysql, Pdo(= Other PDO Driver)
             'database' => 'instant_ussd',
             'username' => '',
             'password' => '',
+            //'hostname' => "",
+            //'port' => "",
+            //'charset' => "",
             'options' => [
                 // see - http://bit.ly/2byorhL
                 'buffer_results' => true,
