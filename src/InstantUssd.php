@@ -109,7 +109,7 @@ class InstantUssd {
      * @param string $homePageMenuId
      * @return Response
      */
-    public function showPage(array $ussdData, EventManager $eventManager, $homePageMenuId = 'home_instant_ussd') {
+    public function showHomePage(array $ussdData, EventManager $eventManager, $homePageMenuId = 'home_instant_ussd') {
 
         $results = $eventManager->trigger($homePageMenuId, $this, $ussdData);
 
