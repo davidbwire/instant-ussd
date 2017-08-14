@@ -96,10 +96,7 @@ class InstantUssd {
             return $results->last();
         } else {
             // @todo log error
-            $results = $eventManager->triggerUntil(function($result) {
-                return ($result instanceof Response);
-            }, '_error_', $this, $ussdData);
-            return $results->last();
+            return $this->showError($ussdData, $eventManager);
         }
     }
 
@@ -121,11 +118,7 @@ class InstantUssd {
             return $response;
         } else {
             // @todo log error
-            $results = $eventManager->triggerUntil(function($result) {
-                return ($result instanceof Response);
-            }, '_error_', $this, $ussdData);
-
-            return $results->last();
+            return $this->showError($ussdData, $eventManager);
         }
     }
 
@@ -187,11 +180,7 @@ class InstantUssd {
                 return $response;
             } else {
                 // @todo log error
-                $results = $eventManager->triggerUntil(function($result) {
-                    return ($result instanceof Response);
-                }, '_error_', $this, $ussdData);
-
-                return $results->last();
+                return $this->showError($ussdData, $eventManager);
             }
         }
         return false;
