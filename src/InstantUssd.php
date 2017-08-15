@@ -57,6 +57,12 @@ class InstantUssd {
      */
     protected $initializer;
 
+    /**
+     * 
+     * @param array $instantUssdConfig
+     * @param object $initializer The class that instantiates this class
+     * @throws Exception
+     */
     public function __construct(array $instantUssdConfig, $initializer) {
         if (gettype($initializer) != 'object') {
             throw new Exception('The initializer must be an object');
