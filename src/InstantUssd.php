@@ -51,8 +51,17 @@ class InstantUssd {
      */
     protected $instantUssdConfig = [];
 
-    public function __construct(array $instantUssdConfig) {
+    /**
+     *
+     * @var object
+     */
+    protected $initializer;
 
+    public function __construct(array $instantUssdConfig, $initializer) {
+        if (gettype($initializer) != 'object') {
+            throw new Exception('The initializer must be an object');
+        }
+        $this->initializer       = $initializer;
         $this->instantUssdConfig = $instantUssdConfig;
         $ussdResponseGenerator   = new UssdResponseGenerator();
 
@@ -248,6 +257,19 @@ class InstantUssd {
     public function setANonExtraneousUssdValues(array $aNonExtraneousUssdValues) {
         $this->aNonExtraneousUssdValues = $aNonExtraneousUssdValues;
         return $this;
+    }
+
+    /**
+     * Used to access functionality from the class that initializes InstantUssd
+     * This method will generally be called from a UssdEventListener
+     * 
+     * $initializer = $ussdEvent
+     *                  ->getTarget()->getInitializer();
+     * 
+     * @return object
+     */
+    public function getInitializer() {
+        return $this->initializer;
     }
 
 }
