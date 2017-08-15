@@ -9,7 +9,7 @@ use Zend\Validator\InArray;
  *
  * @author David Bwire
  */
-class UssdValidator {
+abstract class UssdValidator {
 
     /**
      *
@@ -35,16 +35,19 @@ class UssdValidator {
     }
 
     /**
+     * @param array $ussdData
+     */
+    public abstract function isValidResponse(array &$ussdData);
+
+    /**
+     * Checks if $latestResponse is within acceptable range of valid values
      * 
      * @return boolean
      */
-    public function isValidResponse(array &$ussdData) {
+    protected function isWithinValidRange($latestResponse, array &$ussdData) {
         // set default validation state as valid
         // to prevent validation errors
-        $isValid        = true;
-        // extract latest response
-        $latestResponse = $ussdData['latest_response'];
-
+        $isValid = true;
         // Validate the USSD keys provided
         if (array_key_exists('valid_values', $this->lastServedMenuConfig) &&
                 !empty($this->lastServedMenuConfig['valid_values'])) {
@@ -53,15 +56,6 @@ class UssdValidator {
             if (!$isValid) {
                 $ussdData['error_message'] = "Invalid choice. Reply with " . reset($validValues) . '-' . end($validValues) . '.';
             }
-        }
-        // Run a custom validator on menu_id
-        switch ($this->lastServedMenuId) {
-            case "enter_full_name":
-                $isValid = $this->fullNameValidation($latestResponse, $ussdData);
-                break;
-            default:
-            //    You may also set custom error
-            //    eg $ussdData['error_message'] = "Incorrect password.";
         }
         // set is_valid status to prevent menu from being tracked/saved
         $ussdData['is_valid'] = $isValid;
