@@ -121,4 +121,19 @@ class UssdEvent extends Event {
         return $this->getParam('a_values_non_extraneous');
     }
 
+    /**
+     * Returns the class (essentially the controller) which initialized InstantUssd class
+     * 
+     * @return type
+     * @throws Exception
+     */
+    public function getInitializer() {
+        $eventTarget = $this->target;
+        if (gettype($eventTarget) === 'object') {
+            return $eventTarget->getInitializer();
+        } else {
+            throw new Exception('Event target must be an object');
+        }
+    }
+
 }
