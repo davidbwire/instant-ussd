@@ -2,3 +2,4 @@
 /composer.lock
 /src/config/iussd.config.php
 /src/UssdController.php
+!/src/config/database.sql
