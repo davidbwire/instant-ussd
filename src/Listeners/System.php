@@ -180,7 +180,7 @@ class System {
         }
         $ussdResponseGenerator = new UssdResponseGenerator();
         $ussdContent           = $ussdResponseGenerator
-                ->composeUssdMenu(['menu_title' => $menuTitle], false, false);
+                ->composeUssdMenu(['title' => $menuTitle], false, false);
         return $ussdResponseGenerator
                         ->renderUssdMenu($ussdContent);
     }
@@ -201,7 +201,7 @@ class System {
 
         $ussdResponseGenerator = new UssdResponseGenerator();
         $ussdContent           = $ussdResponseGenerator
-                ->composeUssdMenu(['menu_title' => $menuTitle], true, true);
+                ->composeUssdMenu(['title' => $menuTitle], true, true);
         return $ussdResponseGenerator
                         ->renderUssdMenu($ussdContent);
     }

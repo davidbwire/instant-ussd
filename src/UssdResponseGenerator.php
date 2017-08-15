@@ -38,9 +38,9 @@ class UssdResponseGenerator {
     public function composeUssdMenu(array $menuConfig, $continueUssdHops = true, $appendNavigationText = true) {
 
         // extract menu data
-        $menuTitle    = array_key_exists('menu_title', $menuConfig) ? $menuConfig['menu_title'] : "";
-        $menuBody     = array_key_exists('menu_body', $menuConfig) ? $menuConfig['menu_body'] : "";
-        $menuFooter   = array_key_exists('menu_footer', $menuConfig) ? $menuConfig['menu_footer'] : "";
+        $menuTitle    = array_key_exists('title', $menuConfig) ? $menuConfig['title'] : "";
+        $menuBody     = array_key_exists('body', $menuConfig) ? $menuConfig['body'] : "";
+        $menuFooter   = array_key_exists('footer', $menuConfig) ? $menuConfig['footer'] : "";
         $menuItems    = array_key_exists('menu_items', $menuConfig) ? $menuConfig['menu_items'] : [];
         $errorMessage = array_key_exists('error_message', $menuConfig) ? $menuConfig['error_message'] : "";
         $hasError     = array_key_exists('has_error', $menuConfig) ? $menuConfig['has_error'] : false;
