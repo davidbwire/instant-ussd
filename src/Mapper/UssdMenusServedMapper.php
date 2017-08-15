@@ -51,7 +51,7 @@ class UssdMenusServedMapper extends TableGateway {
      * @param array $columns
      * @return Zend\Db\Adapter\Driver\ResultInterface
      */
-    public function listServedMenusBySessionId(string $ussdSessionId, int $limit = 2, array $columns = ['id', 'menu_id']) {
+    public function listServedMenusBySessionId($ussdSessionId, $limit = 2, array $columns = ['id', 'menu_id']) {
 
         $sql    = $this->getSlaveSql();
         $select = $sql->select()
@@ -159,7 +159,7 @@ class UssdMenusServedMapper extends TableGateway {
      * @param int $menuVisitHistoryId
      * @return boolean
      */
-    public function removeMenuVisitHistoryById(int $menuVisitHistoryId): bool {
+    public function removeMenuVisitHistoryById($menuVisitHistoryId) {
         $sql    = $this->getSlaveSql();
         $delete = $sql->delete()
                 ->where(['id' => $menuVisitHistoryId]);

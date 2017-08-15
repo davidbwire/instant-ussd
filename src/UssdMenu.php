@@ -26,7 +26,7 @@ class UssdMenu {
      * 
      * @param string $menuId
      */
-    public function __construct(string $menuId = "_exit_") {
+    public function __construct($menuId = "_exit_") {
         $this->menuId = trim($menuId);
     }
 
@@ -34,7 +34,7 @@ class UssdMenu {
      * 
      * @return string
      */
-    public function getMenuId(): string {
+    public function getMenuId() {
         return $this->menuId;
     }
 
@@ -43,7 +43,7 @@ class UssdMenu {
      * @param string $menuId
      * @return $this
      */
-    public function setMenuId(string $menuId) {
+    public function setMenuId($menuId) {
         $this->menuId = $menuId;
         return $this;
     }
@@ -52,7 +52,7 @@ class UssdMenu {
      * 
      * @return bool
      */
-    public function isSkippable(): bool {
+    public function isSkippable() {
         return $this->isSkippale;
     }
 
@@ -60,7 +60,7 @@ class UssdMenu {
      * 
      * @return bool
      */
-    public function getIsSkippale(): bool {
+    public function getIsSkippale() {
         return $this->isSkippale;
     }
 
@@ -69,7 +69,7 @@ class UssdMenu {
      * @param bool $isSkippale
      * @return $this
      */
-    public function setIsSkippale(bool $isSkippale) {
+    public function setIsSkippale($isSkippale) {
         $this->isSkippale = $isSkippale;
         return $this;
     }

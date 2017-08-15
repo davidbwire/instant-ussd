@@ -50,7 +50,7 @@ class UssdService implements EventManagerAwareInterface {
      * @param array $aTrimmedUssdValues
      * @return array
      */
-    public function removeExtraneousValues(array $aTrimmedUssdValues): array {
+    public function removeExtraneousValues(array $aTrimmedUssdValues) {
         // these methods should be called in this order
         // remove load more keys
         $aNonLoadMoreValues                 = $this->removeAllOccurencesOfLoadMoreKey($aTrimmedUssdValues);
@@ -66,7 +66,7 @@ class UssdService implements EventManagerAwareInterface {
      * 
      * @return array
      */
-    private function removeAllOccurencesOfLoadMoreKey(array $aTrimmedUssdValues): array {
+    private function removeAllOccurencesOfLoadMoreKey(array $aTrimmedUssdValues) {
         // remove all occurences of LOAD_MORE_KEY
         foreach ($aTrimmedUssdValues as $key => $value) {
             if ($value == self::LOAD_MORE_KEY) {
@@ -82,7 +82,7 @@ class UssdService implements EventManagerAwareInterface {
      * @param array $aNonLoadMoreValuesNonHomeKeyValues
      * @return array
      */
-    private function removeAllOccurencesOfGobackKeyOnGoBackKeyEncounter(array $aNonLoadMoreValuesNonHomeKeyValues): array {
+    private function removeAllOccurencesOfGobackKeyOnGoBackKeyEncounter(array $aNonLoadMoreValuesNonHomeKeyValues) {
 
         // reset index to ensure we're starting from left to right
         reset($aNonLoadMoreValuesNonHomeKeyValues);
@@ -132,7 +132,7 @@ class UssdService implements EventManagerAwareInterface {
      * @param array $aNonLoadMoreValues
      * @return array
      */
-    private function resetToHomeMenuOnHomeKeyEncounter(array $aNonLoadMoreValues): array {
+    private function resetToHomeMenuOnHomeKeyEncounter(array $aNonLoadMoreValues) {
 
         // reset index to ensure we're starting from left to right
         reset($aNonLoadMoreValues);
@@ -169,7 +169,7 @@ class UssdService implements EventManagerAwareInterface {
      * @param string $ussdText
      * @return bool
      */
-    public function isEmptyString(string $ussdText): bool {
+    public function isEmptyString($ussdText) {
         if (strlen(trim($ussdText)) === 0) {
             return true;
         } else {
@@ -183,7 +183,7 @@ class UssdService implements EventManagerAwareInterface {
      * @param array $aTrimmedUssdValues
      * @return boolean
      */
-    public function isExitRequest(array $aTrimmedUssdValues): bool {
+    public function isExitRequest(array $aTrimmedUssdValues) {
 
         // get the last value of array
         $latestResponse = end($aTrimmedUssdValues);
@@ -200,7 +200,7 @@ class UssdService implements EventManagerAwareInterface {
      * @param array $aTrimmedUssdValues
      * @return bool
      */
-    public function isGoBackRequest(array $aTrimmedUssdValues): bool {
+    public function isGoBackRequest(array $aTrimmedUssdValues) {
 
         // get the last value of array
         $latestResponse = end($aTrimmedUssdValues);
@@ -217,7 +217,7 @@ class UssdService implements EventManagerAwareInterface {
      * @param array $aTrimmedUssdValues
      * @return array
      */
-    public function reIndexArray(array $aTrimmedUssdValues): array {
+    public function reIndexArray(array $aTrimmedUssdValues) {
         // returns an indexed array
         return array_values($aTrimmedUssdValues);
     }
@@ -228,7 +228,7 @@ class UssdService implements EventManagerAwareInterface {
      * @param array $aTrimmedUssdValues
      * @return array
      */
-    public function trimArrayValues(array $aTrimmedUssdValues): array {
+    public function trimArrayValues(array $aTrimmedUssdValues) {
         foreach ($aTrimmedUssdValues as $key => $value) {
             $aTrimmedUssdValues[$key] = trim($value);
         }
@@ -259,7 +259,7 @@ class UssdService implements EventManagerAwareInterface {
      * 
      * @return EventManagerInterface
      */
-    public function getEventManager(): EventManagerInterface {
+    public function getEventManager() {
         if (!$this->eventManager) {
             if (empty($this->ussdEventListener)) {
                 throw new Exception('UssdEventListener class not set.');

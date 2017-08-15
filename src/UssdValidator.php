@@ -28,7 +28,7 @@ class UssdValidator {
      * @param string $lastServedMenuId
      * @param array $lastServedMenuConfig
      */
-    public function __construct(string $lastServedMenuId, array $lastServedMenuConfig) {
+    public function __construct($lastServedMenuId, array $lastServedMenuConfig) {
 
         $this->lastServedMenuConfig = $lastServedMenuConfig;
         $this->lastServedMenuId     = $lastServedMenuId;
@@ -74,7 +74,7 @@ class UssdValidator {
      * @param string $latestResponse
      * @return bool
      */
-    protected function inArrayValidation(array $validValues, string $latestResponse): bool {
+    protected function inArrayValidation(array $validValues, $latestResponse) {
         $inArrayValidator = new InArray();
         $inArrayValidator->setHaystack($validValues)
                 ->setStrict(InArray::COMPARE_NOT_STRICT_AND_PREVENT_STR_TO_INT_VULNERABILITY);
@@ -88,7 +88,7 @@ class UssdValidator {
      * @param array $ussdData
      * @return boolean
      */
-    protected function fullNameValidation(string $latestResponse, array &$ussdData) {
+    protected function fullNameValidation($latestResponse, array &$ussdData) {
         $isValid         = true;
         $trimmedResponse = trim($latestResponse);
         if (empty($trimmedResponse)) {

@@ -27,7 +27,7 @@ class UssdMenuItem {
      * 
      * @param string $nextMenuId
      */
-    public function __construct(string $nextMenuId = "_exit_") {
+    public function __construct($nextMenuId = "_exit_") {
         $this->nextMenuId = trim($nextMenuId);
     }
 
@@ -52,7 +52,7 @@ class UssdMenuItem {
      * @param bool $isResetToPreviousPosition
      * @return $this
      */
-    public function setIsResetToPreviousPosition(bool $isResetToPreviousPosition) {
+    public function setIsResetToPreviousPosition($isResetToPreviousPosition) {
         $this->isResetToPreviousPosition = $isResetToPreviousPosition;
         return $this;
     }

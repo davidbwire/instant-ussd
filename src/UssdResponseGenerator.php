@@ -19,7 +19,7 @@ class UssdResponseGenerator {
      * @param string $ussdContent
      * @return Response
      */
-    public function renderUssdMenu(string $ussdContent) {
+    public function renderUssdMenu($ussdContent) {
 
         $response = new Response();
         $response->getHeaders()->addHeaderLine('Content-Type', 'text/plain');
@@ -35,7 +35,7 @@ class UssdResponseGenerator {
      * @param bool $appendNavigationText
      * @return string
      */
-    public function composeUssdMenu(array $menuConfig, bool $continueUssdHops = true, bool $appendNavigationText = true): string {
+    public function composeUssdMenu(array $menuConfig, $continueUssdHops = true, $appendNavigationText = true) {
 
         // extract menu data
         $menuTitle    = array_key_exists('menu_title', $menuConfig) ? $menuConfig['menu_title'] : "";
@@ -131,7 +131,7 @@ class UssdResponseGenerator {
      * @param bool $appendNavigationText
      * @return \Zend\Http\PhpEnvironment\Response
      */
-    public function composeAndRenderUssdMenu(array $menuConfig, bool $continueUssdHops = true, bool $appendNavigationText = true) {
+    public function composeAndRenderUssdMenu(array $menuConfig, $continueUssdHops = true, $appendNavigationText = true) {
         $ussdContent = $this->composeUssdMenu($menuConfig, $continueUssdHops, $appendNavigationText);
         return $this->renderUssdMenu($ussdContent);
     }
@@ -141,7 +141,7 @@ class UssdResponseGenerator {
      * @param string $responseText
      * @return string
      */
-    protected function appendNavigationText(string $responseText): string {
+    protected function appendNavigationText($responseText) {
 
         return $responseText
                 . "0. Go Back"
@@ -218,7 +218,7 @@ class UssdResponseGenerator {
      * @return UssdMenuItem
      * @throws Exception
      */
-    public function determineNextMenu(string $lastServedMenu, array $menuConfig, string $latestResponse, bool $stopLooping = true) {
+    public function determineNextMenu($lastServedMenu, array $menuConfig, $latestResponse, $stopLooping = true) {
 
         $isLoopEnd = array_key_exists('is_loop_end', $menuConfig) ? $menuConfig['is_loop_end'] : false;
 

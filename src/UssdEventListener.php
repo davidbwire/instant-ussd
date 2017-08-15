@@ -40,7 +40,7 @@ class UssdEventListener extends SharedEventManager {
      * @param UssdEvent $e
      * @return boolean
      */
-    protected function clearMenuVisitHistory(UssdEvent $e): bool {
+    protected function clearMenuVisitHistory(UssdEvent $e) {
         // retreive mapper
         $ussdMenusServedMapper = $e->getServiceLocator()
                 ->get(UssdMenusServedMapper::class);

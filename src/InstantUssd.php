@@ -218,7 +218,7 @@ class InstantUssd {
      * 
      * @return UssdService
      */
-    public function getUssdService(): UssdService {
+    public function getUssdService() {
         return $this->ussdService;
     }
 
@@ -226,7 +226,7 @@ class InstantUssd {
      * 
      * @return UssdResponseGenerator
      */
-    public function getUssdResponseGenerator(): UssdResponseGenerator {
+    public function getUssdResponseGenerator() {
         return $this->ussdResponseGenerator;
     }
 
