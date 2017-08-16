@@ -60,6 +60,12 @@ class InstantUssd {
     protected $initializer;
 
     /**
+     *
+     * @var object 
+     */
+    protected $logger;
+
+    /**
      * 
      * @param array $instantUssdConfig
      * @param object $initializer The class that instantiates this class
@@ -296,6 +302,32 @@ class InstantUssd {
      */
     public function getInitializer() {
         return $this->initializer;
+    }
+
+    /**
+     * Get attached logger or try to retreive one from ServiceManager
+     * 
+     * @return object
+     */
+    public function getLogger() {
+
+        if (!$this->logger) {
+            $sl           = $this->getServiceLocator();
+            // check we were able to get a service locator
+            $this->logger = $sl->get('logger');
+        }
+        return $this->logger;
+    }
+
+    /**
+     * Directly attach your own logger
+     * 
+     * @param object $logger
+     * @return $this
+     */
+    public function setLogger($logger) {
+        $this->logger = $logger;
+        return $this;
     }
 
 }

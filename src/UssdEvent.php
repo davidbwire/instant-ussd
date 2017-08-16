@@ -20,12 +20,6 @@ class UssdEvent extends Event {
     protected $serviceLocator;
 
     /**
-     *
-     * @var object
-     */
-    protected $logger;
-
-    /**
      * Get ServicelocatorInterface that is already set or try accessing it from event target
      * 
      * @return ServiceLocatorInterface
@@ -53,32 +47,6 @@ class UssdEvent extends Event {
      */
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator) {
         $this->serviceLocator = $serviceLocator;
-        return $this;
-    }
-
-    /**
-     *
-     * @return object
-     */
-    public function getLogger() {
-        if (!$this->logger) {
-            $sl = $this->getServiceLocator();
-            if ($sl instanceof ServiceLocatorInterface) {
-                // check we were able to get a service locator
-                $this->logger = $sl
-                        ->get('logger');
-            }
-        }
-        return $this->logger;
-    }
-
-    /**
-     * 
-     * @param object $logger
-     * @return $this
-     */
-    public function setLogger($logger) {
-        $this->logger = $logger;
         return $this;
     }
 
@@ -119,7 +87,7 @@ class UssdEvent extends Event {
     /**
      * Returns the class (essentially the controller) which initialized InstantUssd class
      * 
-     * @return type
+     * @return object
      * @throws Exception
      */
     public function getInitializer() {
