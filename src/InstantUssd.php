@@ -105,18 +105,20 @@ class InstantUssd implements EventManagerAwareInterface {
         $ussdService                 = new UssdService($ussdMenusConfig);
         $this->ussdService           = $ussdService;
         $this->ussdResponseGenerator = $ussdResponseGenerator;
+        
+        // IMPORTANT - force $this->eventManager to hold a configured EventManager instance
+        $this->getEventManager();
     }
 
     /**
      * 
      * @param array $ussdData
-     * @param EventManager $eventManager
      * @param string $errorMessage
      * @return Response
      */
-    public function showError($ussdData, EventManager $eventManager, $errorMessage = null) {
+    public function showError($ussdData, $errorMessage = null) {
         $ussdData['error_message'] = $errorMessage;
-        $results                   = $eventManager->triggerUntil(function($result) {
+        $results                   = $this->eventManager->triggerUntil(function($result) {
             return ($result instanceof Response);
         }, '_error_', $this, $ussdData);
         return $results->last();
@@ -125,13 +127,12 @@ class InstantUssd implements EventManagerAwareInterface {
     /**
      * 
      * @param array $ussdData
-     * @param EventManager $eventManager
      * @return Response|void
      */
-    public function exitUssd(array $ussdData, EventManager $eventManager) {
+    public function exitUssd(array $ussdData) {
 
         // trigger until we get a Response
-        $results = $eventManager->triggerUntil(function($result) {
+        $results = $this->eventManager->triggerUntil(function($result) {
             return ($result instanceof Response);
         }, '_exit_', $this, $ussdData);
 
@@ -139,20 +140,19 @@ class InstantUssd implements EventManagerAwareInterface {
             return $results->last();
         } else {
             // @todo log error
-            return $this->showError($ussdData, $eventManager);
+            return $this->showError($ussdData);
         }
     }
 
     /**
      * 
      * @param array $ussdData
-     * @param EventManager $eventManager
      * @param string $homePageMenuId
      * @return Response
      */
-    public function showHomePage(array $ussdData, EventManager $eventManager, $homePageMenuId = 'home_instant_ussd') {
+    public function showHomePage(array $ussdData, $homePageMenuId = 'home_instant_ussd') {
 
-        $results = $eventManager->trigger($homePageMenuId, $this, $ussdData);
+        $results = $this->eventManager->trigger($homePageMenuId, $this, $ussdData);
 
         // get response from 1st listener
         $response = $results->first();
@@ -161,49 +161,47 @@ class InstantUssd implements EventManagerAwareInterface {
             return $response;
         } else {
             // @todo log error
-            return $this->showError($ussdData, $eventManager);
+            return $this->showError($ussdData);
         }
     }
 
     /**
      * 
      * @param array $ussdData
-     * @param EventManager $eventManager
      * @param string $nextMenuId
      * @return Response
      */
-    public function showNextMenuId(array $ussdData, EventManager $eventManager, $nextMenuId) {
+    public function showNextMenuId(array $ussdData, $nextMenuId) {
         // with the next_menu_id
         // disable incoming cycle
         $ussdData['is_incoming_data'] = false;
         // don't use triggerUntil as it will prevent tracking
         // try and render next menu
-        $outGoingCycleResults         = $eventManager->trigger($nextMenuId, $this, $ussdData);
+        $outGoingCycleResults         = $this->eventManager->trigger($nextMenuId, $this, $ussdData);
         $outGoingCycleResult          = $outGoingCycleResults->first();
         // Try and find a response that's not a skippable
         while ($outGoingCycleResult instanceof UssdMenuItem) {
             // get the next menu
             $nextMenuId           = $outGoingCycleResult->getNextMenuId();
-            $outGoingCycleResults = $eventManager->trigger($nextMenuId, $this, $ussdData);
+            $outGoingCycleResults = $this->eventManager->trigger($nextMenuId, $this, $ussdData);
             $outGoingCycleResult  = $outGoingCycleResults->first();
         }
         //--- send data to user
         if ($outGoingCycleResult instanceof Response) {
             return $outGoingCycleResult;
         } else {
-            return $this->showError($ussdData, $eventManager, "Error. Next screen could not be loaded.");
+            return $this->showError($ussdData, "Error. Next screen could not be loaded.");
         }
     }
 
     /**
      * 
      * @param array $ussdData
-     * @param EventManager $eventManager
      * @return mixed Response|false
      */
-    public function goBack(array $ussdData, EventManager $eventManager) {
+    public function goBack(array $ussdData) {
         // try and find the previous menu
-        $results      = $eventManager->trigger('_go_back_.pre', $this, $ussdData);
+        $results      = $this->eventManager->trigger('_go_back_.pre', $this, $ussdData);
         // retreive first data
         $previousMenu = $results->first();
 
@@ -215,7 +213,7 @@ class InstantUssd implements EventManagerAwareInterface {
             $ussdData['is_incoming_data'] = false;
 
             // trigger event to show previous menu
-            $results = $eventManager->trigger($previousMenu, $this, $ussdData);
+            $results = $this->eventManager->trigger($previousMenu, $this, $ussdData);
 
             // get response from 1st listener
             $response = $results->first();
@@ -223,7 +221,7 @@ class InstantUssd implements EventManagerAwareInterface {
                 return $response;
             } else {
                 // @todo log error
-                return $this->showError($ussdData, $eventManager);
+                return $this->showError($ussdData);
             }
         }
         return false;
