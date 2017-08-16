@@ -5,6 +5,7 @@ namespace Bitmarshals\InstantUssd;
 use Zend\EventManager\Event;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Exception;
+use Bitmarshals\InstantUssd\InstantUssd;
 
 /**
  * Description of UssdEvent
@@ -97,6 +98,21 @@ class UssdEvent extends Event {
         } else {
             throw new Exception('Event target must be an object');
         }
+    }
+
+    /**
+     * Retreives an instance of InstantUssd from which UssdEvent was triggered or throws an error
+     * 
+     * @return InstantUssd
+     * @throws Exception
+     */
+    public function getInstantUssd() {
+        $eventTarget = $this->target;
+        if (is_object($eventTarget) && ($eventTarget instanceof InstantUssd)) {
+            return $eventTarget;
+        }
+        throw new Exception("UssdEvent was not triggered"
+        . " from InstantUssd class");
     }
 
 }
