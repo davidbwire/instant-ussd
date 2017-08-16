@@ -177,6 +177,8 @@ class UssdService {
 
         // get the last value of array
         $latestResponse = end($this->aTrimmedUssdValues);
+        // return to it's initial state
+        reset($this->aTrimmedUssdValues);
         // check if it's a system exit
         if ($latestResponse === self::EXIT_KEY) {
             return true;
