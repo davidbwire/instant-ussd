@@ -15,17 +15,7 @@ class UssdService {
     const EXIT_KEY      = "000";
 
     /**
-     *
-     * @var array 
-     */
-    protected $ussdMenusConfig = [];
-
-    public function __construct(array $ussdMenusConfig) {
-        $this->ussdMenusConfig = $ussdMenusConfig;
-    }
-
-    /**
-     * Remove extraneous ussd values such as navigation and load more values
+     * Remove extraneous USSD values such as navigation and load more values
      * 
      * @param array $aTrimmedUssdValues
      * @return array
