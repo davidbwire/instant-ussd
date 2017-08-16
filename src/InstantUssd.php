@@ -105,7 +105,7 @@ class InstantUssd implements EventManagerAwareInterface {
         $ussdService                 = new UssdService($ussdMenusConfig);
         $this->ussdService           = $ussdService;
         $this->ussdResponseGenerator = $ussdResponseGenerator;
-        
+
         // IMPORTANT - force $this->eventManager to hold a configured EventManager instance
         $this->getEventManager();
     }
@@ -383,6 +383,31 @@ class InstantUssd implements EventManagerAwareInterface {
             throw new \Exception('ussd_event_listener should be a string.');
         }
         $this->ussdEventListener = $ussdEventListener;
+    }
+
+    /**
+     * get last served menu_id from database
+     * 
+     * @param array $ussdData
+     * @return mixed string|null
+     */
+    public function retrieveLastServedMenuId(array $ussdData) {
+        $resultsMenuId    = $this->eventManager
+                ->trigger('_retreive_last_served_menu_', $this, $ussdData);
+        $lastServedMenuId = $resultsMenuId->first();
+        return $lastServedMenuId;
+    }
+
+    /**
+     * 
+     * @param array $ussdData
+     * @return mixed array|false|null
+     */
+    public function retrieveMenuConfig(array $ussdData) {
+        $resultsMenuConfig    = $this->eventManager
+                ->trigger('_retreive_menu_config_', $this, $ussdData);
+        $lastServedMenuConfig = $resultsMenuConfig->first();
+        return $lastServedMenuConfig;
     }
 
 }
