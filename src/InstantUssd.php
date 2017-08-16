@@ -404,10 +404,10 @@ class InstantUssd implements EventManagerAwareInterface {
      * @return mixed array|false|null
      */
     public function retrieveMenuConfig(array $ussdData) {
-        $resultsMenuConfig    = $this->eventManager
+        $resultsMenuConfig = $this->eventManager
                 ->trigger('_retreive_menu_config_', $this, $ussdData);
-        $lastServedMenuConfig = $resultsMenuConfig->first();
-        return $lastServedMenuConfig;
+        $menuConfig        = $resultsMenuConfig->first();
+        return $menuConfig;
     }
 
 }
