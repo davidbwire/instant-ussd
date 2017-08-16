@@ -415,4 +415,38 @@ class InstantUssd {
         return $menuConfig;
     }
 
+    /**
+     * Send data for processing by the listener and returns pointer to the next screen
+     * 
+     * @param string $lastServedMenuId
+     * @param array $ussdData
+     * @return mixed boolean|string pointer to the next screen or false
+     */
+    public function processIncomingData($lastServedMenuId, array $ussdData) {
+
+        // activate incoming data state
+        $ussdData['is_incoming_data'] = true;
+        $incomingCycleResults         = $this->eventManager->triggerUntil(function ($result) {
+            // data was processed and we should expect a pointer to the next menu
+            return ($result instanceof UssdMenuItem);
+        }, $lastServedMenuId, $this, $ussdData);
+        // check if we missed a pointer to the next screen
+        if (!$incomingCycleResults->stopped()) {
+            return false;
+        }
+
+        // try and render the pointer/next screen
+        $ussdMenuItem              = $incomingCycleResults->last();
+        $isResetToPreviousPosition = $ussdMenuItem->isResetToPreviousPosition();
+        // retreive our next menu_id
+        $nextMenuId                = $ussdMenuItem->getNextMenuId();
+        // check if it's a parent node reset
+        if ($isResetToPreviousPosition) {
+            $this->getUssdMenusServedMapper()
+                    ->resetMenuVisitHistoryToPreviousPosition($ussdParams['sessionId'], $nextMenuId);
+        }
+        // pointer to the next screen
+        return $nextMenuId;
+    }
+
 }
