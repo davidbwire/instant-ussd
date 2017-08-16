@@ -9,6 +9,8 @@ use Zend\Http\PhpEnvironment\Response;
 use Zend\EventManager\EventManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Bitmarshals\InstantUssd\Mapper\UssdMenusServedMapper;
+use Bitmarshals\InstantUssd\Mapper\UssdLoopMapper;
+use Bitmarshals\InstantUssd\Mapper\SkippableUssdMenuMapper;
 use Zend\ServiceManager\ServiceManager;
 use Bitmarshals\InstantUssd\UssdMenuItem;
 
@@ -227,6 +229,24 @@ class InstantUssd {
     public function getUssdMenusServedMapper() {
         return $this->getServiceLocator()
                         ->get(UssdMenusServedMapper::class);
+    }
+
+    /**
+     * 
+     * @return UssdLoopMapper
+     */
+    public function getUssdLoopMapper() {
+        return $this->getServiceLocator()
+                        ->get(UssdLoopMapper::class);
+    }
+
+    /**
+     * 
+     * @return SkippableUssdMenuMapper
+     */
+    public function getSkippableUssdMenuMapper() {
+        return $this->getServiceLocator()
+                        ->get(SkippableUssdMenuMapper::class);
     }
 
     /**
