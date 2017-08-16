@@ -13,13 +13,16 @@ use Bitmarshals\InstantUssd\Mapper\UssdLoopMapper;
 use Bitmarshals\InstantUssd\Mapper\SkippableUssdMenuMapper;
 use Zend\ServiceManager\ServiceManager;
 use Bitmarshals\InstantUssd\UssdMenuItem;
+use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\EventManagerAwareInterface;
+use Bitmarshals\InstantUssd\UssdEvent;
 
 /**
  * Description of InstantUssd
  *
  * @author David Bwire
  */
-class InstantUssd {
+class InstantUssd implements EventManagerAwareInterface {
 
     /**
      *
@@ -66,6 +69,18 @@ class InstantUssd {
     protected $logger;
 
     /**
+     *
+     * @var string 
+     */
+    protected $ussdEventListener;
+
+    /**
+     *
+     * @var EventManager 
+     */
+    protected $eventManager;
+
+    /**
      * 
      * @param array $instantUssdConfig
      * @param object $initializer The class that instantiates this class (InstantUssd)
@@ -84,8 +99,10 @@ class InstantUssd {
 
         $ussdMenusConfig   = $instantUssdConfig['ussd_menus'];
         $ussdEventListener = $instantUssdConfig['ussd_event_listener'];
+        $this->setUssdEventListener($ussdEventListener);
 
-        $ussdService                 = new UssdService($ussdMenusConfig, $ussdEventListener);
+
+        $ussdService                 = new UssdService($ussdMenusConfig);
         $this->ussdService           = $ussdService;
         $this->ussdResponseGenerator = $ussdResponseGenerator;
     }
@@ -331,6 +348,43 @@ class InstantUssd {
     public function setLogger($logger) {
         $this->logger = $logger;
         return $this;
+    }
+
+    /**
+     * 
+     * @return EventManagerInterface
+     */
+    public function getEventManager() {
+        if (!$this->eventManager) {
+            if (empty($this->ussdEventListener)) {
+                throw new Exception('UssdEventListener class not set.');
+            }
+            $class = $this->ussdEventListener;
+            $this->setEventManager(new EventManager(new $class($this->ussdMenusConfig)));
+        }
+        return $this->eventManager;
+    }
+
+    /**
+     * 
+     * @param EventManagerInterface $eventManager
+     */
+    protected function setEventManager(EventManagerInterface $eventManager) {
+        $eventManager->setIdentifiers([__NAMESPACE__]);
+        // set a custom ussd event
+        $eventManager->setEventPrototype(new UssdEvent('ussd'));
+        $this->eventManager = $eventManager;
+    }
+
+    /**
+     * 
+     * @param string $ussdEventListener
+     */
+    protected function setUssdEventListener($ussdEventListener) {
+        if (!(gettype($ussdEventListener) === 'string')) {
+            throw new \Exception('ussd_event_listener should be a string.');
+        }
+        $this->ussdEventListener = $ussdEventListener;
     }
 
 }
