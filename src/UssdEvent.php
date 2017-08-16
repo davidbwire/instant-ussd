@@ -3,7 +3,6 @@
 namespace Bitmarshals\InstantUssd;
 
 use Zend\EventManager\Event;
-use Zend\Log\Logger;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Exception;
 
@@ -22,7 +21,7 @@ class UssdEvent extends Event {
 
     /**
      *
-     * @var Logger
+     * @var object
      */
     protected $logger;
 
@@ -59,7 +58,7 @@ class UssdEvent extends Event {
 
     /**
      *
-     * @return Logger
+     * @return object
      */
     public function getLogger() {
         if (!$this->logger) {
@@ -67,22 +66,18 @@ class UssdEvent extends Event {
             if ($sl instanceof ServiceLocatorInterface) {
                 // check we were able to get a service locator
                 $this->logger = $sl
-                        ->get('LoggerService');
+                        ->get('logger');
             }
-        }
-        // check we have a logger
-        if (!$this->logger instanceof Logger) {
-            throw new Exception('Logger Service could not be retreived.');
         }
         return $this->logger;
     }
 
     /**
      * 
-     * @param Logger $logger
+     * @param object $logger
      * @return $this
      */
-    public function setLogger(Logger $logger) {
+    public function setLogger($logger) {
         $this->logger = $logger;
         return $this;
     }
