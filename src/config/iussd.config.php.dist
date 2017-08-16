@@ -31,11 +31,12 @@ return [
                 // menu_items
                 "menu_items" => [
                     [
-                        "next_menu_id" => 'example_enter_full_name',
+                        // empty next_menu_id will force an exit
+                        "next_menu_id" => "",
                         "description" => "Register"
                     ],
                     [
-                        "next_menu_id" => 'example_my_account',
+                        "next_menu_id" => "",
                         "description" => "My account"
                     ]
                 ]
