@@ -36,14 +36,6 @@ class InstantUssd {
     protected $ussdResponseGenerator;
 
     /**
-     * Array of pre-trimmed ussd values that are devoid of navigation 
-     * text eg 0,000,00 and 98
-     * 
-     * @var array
-     */
-    protected $aNonExtraneousUssdValues = [];
-
-    /**
      *
      * @var ServiceLocatorInterface 
      */
@@ -295,26 +287,6 @@ class InstantUssd {
      */
     public function getUssdResponseGenerator() {
         return $this->ussdResponseGenerator;
-    }
-
-    /**
-     * Array of ussd responses without extraneous values eg navigation codes
-     * (0, 00, 000) and pagination codes (98)
-     * 
-     * @return array
-     */
-    public function getANonExtraneousUssdValues() {
-        return $this->aNonExtraneousUssdValues;
-    }
-
-    /**
-     * 
-     * @param array $aNonExtraneousUssdValues
-     * @return $this
-     */
-    public function setANonExtraneousUssdValues(array $aNonExtraneousUssdValues) {
-        $this->aNonExtraneousUssdValues = $aNonExtraneousUssdValues;
-        return $this;
     }
 
     /**

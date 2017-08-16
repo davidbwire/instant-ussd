@@ -5,7 +5,6 @@ namespace Bitmarshals\InstantUssd;
 use Zend\EventManager\SharedEventManager;
 use Bitmarshals\InstantUssd\UssdEvent;
 use Bitmarshals\InstantUssd\UssdResponseGenerator;
-use Bitmarshals\InstantUssd\UssdMenuConfig;
 use Bitmarshals\InstantUssd\Mapper\UssdMenusServedMapper;
 use Bitmarshals\InstantUssd\Listeners\System;
 use Exception;
