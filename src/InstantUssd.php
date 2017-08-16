@@ -68,7 +68,10 @@ class InstantUssd {
     /**
      * 
      * @param array $instantUssdConfig
-     * @param object $initializer The class that instantiates this class
+     * @param object $initializer The class that instantiates this class (InstantUssd)
+     *               The $initializer is useful when you'd like to extract dependancies
+     *               for use in a ussd event listener
+     * 
      * @throws Exception
      */
     public function __construct(array $instantUssdConfig, $initializer) {
