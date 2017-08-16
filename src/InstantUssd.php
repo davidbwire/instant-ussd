@@ -150,7 +150,7 @@ class InstantUssd implements EventManagerAwareInterface {
      * @param string $homePageMenuId
      * @return Response
      */
-    public function showHomePage(array $ussdData, $homePageMenuId = 'home_instant_ussd') {
+    public function showHomePage(array $ussdData, $homePageMenuId) {
 
         $results = $this->eventManager->trigger($homePageMenuId, $this, $ussdData);
 
