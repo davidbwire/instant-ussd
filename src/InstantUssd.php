@@ -424,4 +424,40 @@ class InstantUssd {
         return $nextMenuId;
     }
 
+    /**
+     * Check if we should continue looping a loopset or exit
+     * 
+     * @param array $menuConfig
+     * @param UssdEvent $e
+     * @return boolean
+     */
+    public function shouldStopLooping(array &$menuConfig, UssdEvent $e) {
+
+        $shouldStopLooping = true;
+        if (!array_key_exists('is_loop_end', $menuConfig) ||
+                empty($menuConfig['is_loop_end'])) {
+            return true;
+        }
+        $loopsetName    = $menuConfig['loopset_name'];
+        $sessionId      = $e->getParam('session_id');
+        $latestResponse = $e->getParam('latest_response');
+
+        $ussdLoopMapper    = $this->getUssdLoopMapper();
+        $shouldStopLooping = $ussdLoopMapper->shouldStopLooping(
+                $loopsetName, $sessionId, $menuConfig);
+
+        if (!$shouldStopLooping && (!$e->containsIncomingData())
+                // lastly prevent increment in loops done when user goes back
+                // this happens because event will be refired on post go back
+                && (trim($latestResponse) !== UssdService::GO_BACK_KEY)) {
+            $ussdLoopMapper->incrementLoops($loopsetName, $sessionId);
+            // check AGAIN if we should stop looping
+            // informs determineNextMenu
+            //--- helpful incase of skippable menu
+            $shouldStopLooping = $ussdLoopMapper->shouldStopLooping(
+                    $loopsetName, $sessionId, $menuConfig);
+        }
+        return $shouldStopLooping;
+    }
+
 }
