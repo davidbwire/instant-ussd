@@ -81,6 +81,12 @@ class InstantUssd implements EventManagerAwareInterface {
     protected $eventManager;
 
     /**
+     *
+     * @var array 
+     */
+    protected $ussdMenusConfig = [];
+
+    /**
      * 
      * @param array $instantUssdConfig
      * @param object $initializer The class that instantiates this class (InstantUssd)
@@ -101,8 +107,8 @@ class InstantUssd implements EventManagerAwareInterface {
         $ussdEventListener = $instantUssdConfig['ussd_event_listener'];
         $this->setUssdEventListener($ussdEventListener);
 
-
-        $ussdService                 = new UssdService($ussdMenusConfig);
+        $this->ussdMenusConfig       = $ussdMenusConfig;
+        $ussdService                 = new UssdService();
         $this->ussdService           = $ussdService;
         $this->ussdResponseGenerator = $ussdResponseGenerator;
 
