@@ -107,8 +107,6 @@ class InstantUssd {
         $this->setUssdEventListener($ussdEventListener);
 
         $this->ussdMenusConfig       = $ussdMenusConfig;
-        $ussdService                 = new UssdService();
-        $this->ussdService           = $ussdService;
         $this->ussdResponseGenerator = $ussdResponseGenerator;
 
         // IMPORTANT - force $this->eventManager to hold a configured EventManager instance
@@ -282,7 +280,12 @@ class InstantUssd {
      * 
      * @return UssdService
      */
-    public function getUssdService() {
+    public function getUssdService($ussdText, $separator = "*") {
+
+        if (!$this->ussdService) {
+            $ussdService       = new UssdService($ussdText, $separator);
+            $this->ussdService = $ussdService;
+        }
         return $this->ussdService;
     }
 
