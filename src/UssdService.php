@@ -15,12 +15,33 @@ class UssdService {
     const EXIT_KEY      = "000";
 
     /**
+     *
+     * @var array 
+     */
+    protected $aTrimmedUssdValues;
+
+    /**
+     *
+     * @var array
+     */
+    protected $aNonExtraneousUssdValues;
+
+    public function __construct($ussdText, $separator) {
+        // convert ussd text to array and remove extra spaces
+        $this->aTrimmedUssdValues       = $this->trimArrayValues(explode($separator, $ussdText));
+        // rid $aTrimmedUssdValues of extraneous values like navigation text etc
+        $this->aNonExtraneousUssdValues = $this->removeExtraneousValues($this->aTrimmedUssdValues);
+    }
+
+    /**
      * Remove extraneous USSD values such as navigation and load more values
      * 
      * @param array $aTrimmedUssdValues
      * @return array
      */
-    public function removeExtraneousValues(array $aTrimmedUssdValues) {
+    protected function removeExtraneousValues(array $aTrimmedUssdValues) {
+        // reset index to ensure we're starting from left to right
+        reset($aTrimmedUssdValues);
         // these methods should be called in this order
         // remove load more keys
         $aNonLoadMoreValues                 = $this->removeAllOccurencesOfLoadMoreKey($aTrimmedUssdValues);
@@ -150,13 +171,12 @@ class UssdService {
     /**
      * Check if user has keyed in triple zero 000 for the current request
      *
-     * @param array $aTrimmedUssdValues
      * @return boolean
      */
-    public function isExitRequest(array $aTrimmedUssdValues) {
+    public function isExitRequest() {
 
         // get the last value of array
-        $latestResponse = end($aTrimmedUssdValues);
+        $latestResponse = end($this->aTrimmedUssdValues);
         // check if it's a system exit
         if ($latestResponse === self::EXIT_KEY) {
             return true;
@@ -167,13 +187,14 @@ class UssdService {
     /**
      * Check if user wants to go back
      * 
-     * @param array $aTrimmedUssdValues
      * @return bool
      */
-    public function isGoBackRequest(array $aTrimmedUssdValues) {
+    public function isGoBackRequest() {
 
         // get the last value of array
-        $latestResponse = end($aTrimmedUssdValues);
+        $latestResponse = end($this->aTrimmedUssdValues);
+        // return to it's initial state
+        reset($this->aTrimmedUssdValues);
         // check if it's a system exit
         if ($latestResponse === self::GO_BACK_KEY) {
             return true;
@@ -198,7 +219,7 @@ class UssdService {
      * @param array $aTrimmedUssdValues
      * @return array
      */
-    public function trimArrayValues(array $aTrimmedUssdValues) {
+    protected function trimArrayValues(array $aTrimmedUssdValues) {
         foreach ($aTrimmedUssdValues as $key => $value) {
             $aTrimmedUssdValues[$key] = trim($value);
         }
@@ -208,21 +229,55 @@ class UssdService {
     /**
      * Get the most recent value sent in from the user
      * 
-     * @param array $aTrimmedUssdValues
      * @return mixed string|false
      */
-    public function getLatestResponse(array $aTrimmedUssdValues) {
-        return end($aTrimmedUssdValues);
+    public function getLatestResponse() {
+        $latestResponse = end($this->aTrimmedUssdValues);
+        // return array in it's original state
+        reset($this->aTrimmedUssdValues);
+        return $latestResponse;
     }
 
     /**
      * Find the very first value the user sent our way
      * 
-     * @param array $aNonExtraneousUssdValues
      * @return mixed string|false
      */
-    public function getFirstResponse(array $aNonExtraneousUssdValues) {
-        return reset($aNonExtraneousUssdValues);
+    public function getFirstResponse() {
+        return reset($this->aNonExtraneousUssdValues);
+    }
+
+    /**
+     * Package incoming data in a format InstantUssd understands. Also add trimmed data
+     * , non-extraneous data, first_response & last_response
+     * 
+     * @param array $ussdParams
+     * @param array $aTrimmedUssdValues
+     * @param array $aNonExtraneousUssdValues
+     * @return array
+     */
+    public function packageUssdData(array $ussdParams) {
+        return [
+            'phone_number' => $ussdParams['phoneNumber'],
+            'session_id' => $ussdParams['sessionId'],
+            'service_code' => $ussdParams ['serviceCode'],
+            'text' => $ussdParams['text'],
+            'a_values_trimmed' => $this->aTrimmedUssdValues,
+            'a_values_non_extraneous' => $this->aNonExtraneousUssdValues,
+            // extract & attach latest reponse and first reponse
+            'latest_response' => $this->getLatestResponse(),
+            'first_response' => $this->getFirstResponse()
+        ];
+    }
+
+    /**
+     * 
+     * @return boolean
+     */
+    public function isExplicitHomepageRequest() {
+        $latestResponse = $this->getLatestResponse();
+        return (count($this->aTrimmedUssdValues) &&
+                ($latestResponse === self::HOME_KEY));
     }
 
 }
