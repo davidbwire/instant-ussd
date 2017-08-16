@@ -14,7 +14,6 @@ use Bitmarshals\InstantUssd\Mapper\SkippableUssdMenuMapper;
 use Zend\ServiceManager\ServiceManager;
 use Bitmarshals\InstantUssd\UssdMenuItem;
 use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\EventManagerAwareInterface;
 use Bitmarshals\InstantUssd\UssdEvent;
 
 /**
@@ -22,7 +21,7 @@ use Bitmarshals\InstantUssd\UssdEvent;
  *
  * @author David Bwire
  */
-class InstantUssd implements EventManagerAwareInterface {
+class InstantUssd {
 
     /**
      *
