@@ -425,7 +425,8 @@ class InstantUssd {
     }
 
     /**
-     * Check if we should continue looping a loopset or exit
+     * Check if we should continue looping a loopset or exit. It should be 
+     * called before determining next menu
      * 
      * @param array $menuConfig
      * @param UssdEvent $e
@@ -437,6 +438,12 @@ class InstantUssd {
         if (!array_key_exists('is_loop_end', $menuConfig) ||
                 empty($menuConfig['is_loop_end'])) {
             return true;
+        }
+        // we must have loopset_name to proceed
+        if (!array_key_exists('loopset_name', $menuConfig) ||
+                empty($menuConfig['loopset_name'])) {
+            throw new Exception('loopset_name not set for menu_id '
+            . $e->getName() . ' ' . __FILE__ . ':' . __LINE__);
         }
         $loopsetName    = $menuConfig['loopset_name'];
         $sessionId      = $e->getParam('session_id');
