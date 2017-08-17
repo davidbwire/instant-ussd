@@ -426,7 +426,8 @@ class InstantUssd {
 
     /**
      * Check if we should continue looping a loopset or exit. It should be 
-     * called before determining next menu
+     * called before determining next menu. Should be called at the very top of
+     * your listener
      * 
      * @param array $menuConfig
      * @param UssdEvent $e
