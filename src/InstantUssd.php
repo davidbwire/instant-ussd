@@ -453,7 +453,10 @@ class InstantUssd {
         $shouldStopLooping = $ussdLoopMapper->shouldStopLooping(
                 $loopsetName, $sessionId, $menuConfig);
 
-        if (!$shouldStopLooping && (!$e->containsIncomingData())
+        if (!$shouldStopLooping
+                // prevent double increment due to double pass per listener
+                // Track count on the contains data face
+                && ($e->containsIncomingData())
                 // lastly prevent increment in loops done when user goes back
                 // this happens because event will be refired on post go back
                 && (trim($latestResponse) !== UssdService::GO_BACK_KEY)) {
