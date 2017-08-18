@@ -146,7 +146,10 @@ class InstantUssd {
      * @return Response
      */
     public function showHomePage(array $ussdData, $homePageMenuId) {
-
+        // enforce home page format
+        if (!(substr($homePageMenuId, 0, 5) === 'home_')) {
+            throw new Exception("Home pages must begin with 'home_'");
+        }
         $results = $this->eventManager->trigger($homePageMenuId, $this, $ussdData);
 
         // get response from 1st listener
@@ -177,7 +180,7 @@ class InstantUssd {
         // Try and find a response that's not a skippable
         while ($outGoingCycleResult instanceof UssdMenuItem) {
             // get the next menu
-            $nextScreenId           = $outGoingCycleResult->getNextMenuId();
+            $nextScreenId         = $outGoingCycleResult->getNextMenuId();
             $outGoingCycleResults = $this->eventManager->trigger($nextScreenId, $this, $ussdData);
             $outGoingCycleResult  = $outGoingCycleResults->first();
         }
@@ -414,7 +417,7 @@ class InstantUssd {
         $ussdMenuItem              = $incomingCycleResults->last();
         $isResetToPreviousPosition = $ussdMenuItem->isResetToPreviousPosition();
         // retreive our next menu_id
-        $nextScreenId                = $ussdMenuItem->getNextMenuId();
+        $nextScreenId              = $ussdMenuItem->getNextMenuId();
         // check if it's a parent node reset
         if ($isResetToPreviousPosition) {
             $this->getUssdMenusServedMapper()
