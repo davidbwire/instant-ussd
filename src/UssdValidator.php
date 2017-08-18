@@ -57,7 +57,7 @@ abstract class UssdValidator {
                 $ussdData['error_message'] = "Invalid choice. Reply with " . reset($validValues) . '-' . end($validValues) . '.';
             }
         }
-        // set is_valid status to prevent menu from being tracked/saved
+        // IMPORTANT set validity status to prevent invalid menu from being tracked/saved
         $ussdData['is_valid'] = $isValid;
         return $isValid;
     }
