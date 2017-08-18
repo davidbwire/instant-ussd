@@ -26,7 +26,14 @@ class UssdService {
      */
     protected $aNonExtraneousUssdValues;
 
+    /**
+     *
+     * @var string 
+     */
+    protected $ussdText;
+
     public function __construct($ussdText, $separator) {
+        $this->ussdText                 = $ussdText;
         // convert ussd text to array and remove extra spaces
         $this->aTrimmedUssdValues       = $this->trimArrayValues(explode($separator, $ussdText));
         // rid $aTrimmedUssdValues of extraneous values like navigation text etc
@@ -157,11 +164,10 @@ class UssdService {
 
     /**
      * 
-     * @param string $ussdText
-     * @return bool
+     * @return boolean
      */
-    public function isEmptyString($ussdText) {
-        if (strlen(trim($ussdText)) === 0) {
+    public function isFirstRequest() {
+        if (strlen(trim($this->ussdText)) === 0) {
             return true;
         } else {
             return false;
