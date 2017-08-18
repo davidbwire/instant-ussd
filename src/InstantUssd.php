@@ -163,22 +163,22 @@ class InstantUssd {
     /**
      * 
      * @param array $ussdData
-     * @param string $nextMenuId
+     * @param string $nextScreenId
      * @return Response
      */
-    public function showNextMenuId(array $ussdData, $nextMenuId) {
+    public function showNextScreen(array $ussdData, $nextScreenId) {
         // with the next_screen
         // disable incoming cycle
         $ussdData['is_incoming_data'] = false;
         // don't use triggerUntil as it will prevent tracking
         // try and render next menu
-        $outGoingCycleResults         = $this->eventManager->trigger($nextMenuId, $this, $ussdData);
+        $outGoingCycleResults         = $this->eventManager->trigger($nextScreenId, $this, $ussdData);
         $outGoingCycleResult          = $outGoingCycleResults->first();
         // Try and find a response that's not a skippable
         while ($outGoingCycleResult instanceof UssdMenuItem) {
             // get the next menu
-            $nextMenuId           = $outGoingCycleResult->getNextMenuId();
-            $outGoingCycleResults = $this->eventManager->trigger($nextMenuId, $this, $ussdData);
+            $nextScreenId           = $outGoingCycleResult->getNextMenuId();
+            $outGoingCycleResults = $this->eventManager->trigger($nextScreenId, $this, $ussdData);
             $outGoingCycleResult  = $outGoingCycleResults->first();
         }
         //--- send data to user
@@ -414,14 +414,14 @@ class InstantUssd {
         $ussdMenuItem              = $incomingCycleResults->last();
         $isResetToPreviousPosition = $ussdMenuItem->isResetToPreviousPosition();
         // retreive our next menu_id
-        $nextMenuId                = $ussdMenuItem->getNextMenuId();
+        $nextScreenId                = $ussdMenuItem->getNextMenuId();
         // check if it's a parent node reset
         if ($isResetToPreviousPosition) {
             $this->getUssdMenusServedMapper()
-                    ->resetMenuVisitHistoryToPreviousPosition($ussdParams['sessionId'], $nextMenuId);
+                    ->resetMenuVisitHistoryToPreviousPosition($ussdParams['sessionId'], $nextScreenId);
         }
         // pointer to the next screen
-        return $nextMenuId;
+        return $nextScreenId;
     }
 
     /**
