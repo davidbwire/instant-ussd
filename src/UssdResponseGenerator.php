@@ -240,13 +240,13 @@ class UssdResponseGenerator {
             // implies it's terminate
             return new UssdMenuItem();
         }
-        // retreive next_menu_id from dynamic or non-ranked menus
+        // retreive next_screen from dynamic or non-ranked menus
         if ($totalMenuItems === 1) {
             $currentMenuItem = current($lastServedMenuItems);
             if (is_array($currentMenuItem) &&
-                    array_key_exists('next_menu_id', $currentMenuItem) &&
-                    !empty($currentMenuItem['next_menu_id'])) {
-                $ussdMenu = new UssdMenuItem($currentMenuItem['next_menu_id']);
+                    array_key_exists('next_screen', $currentMenuItem) &&
+                    !empty($currentMenuItem['next_screen'])) {
+                $ussdMenu = new UssdMenuItem($currentMenuItem['next_screen']);
                 // check if we're jumping back in history
                 if (array_key_exists('is_reset_to_previous_position', $currentMenuItem)) {
                     $ussdMenu->setIsResetToPreviousPosition((bool) $currentMenuItem['is_reset_to_previous_position']);
@@ -260,20 +260,20 @@ class UssdResponseGenerator {
 
         // we are likely dealing with a predetermined list
         // we have many menu_items
-        // use $latestResponse to try and find the next_menu_id
+        // use $latestResponse to try and find the next_screen
         $latestResponseKey = $latestResponse - 1;
         if (array_key_exists($latestResponseKey, $lastServedMenuItems)) {
             $targetMenuItem = $lastServedMenuItems[$latestResponseKey];
 
-            if (is_array($targetMenuItem) && array_key_exists('next_menu_id', $targetMenuItem) &&
-                    !empty($targetMenuItem['next_menu_id'])) {
-                return new UssdMenuItem($targetMenuItem['next_menu_id']);
+            if (is_array($targetMenuItem) && array_key_exists('next_screen', $targetMenuItem) &&
+                    !empty($targetMenuItem['next_screen'])) {
+                return new UssdMenuItem($targetMenuItem['next_screen']);
             } else {
-                throw new Exception("Could not retreive next_menu_id from "
+                throw new Exception("Could not retreive next_screen from "
                 . "menu items of $lastServedMenu using the latest response key ($latestResponseKey) " . __METHOD__ . ":" . __LINE__);
             }
         } else {
-            throw new Exception("Could not retreive next_menu_id from "
+            throw new Exception("Could not retreive next_screen from "
             . "menu items of $lastServedMenu" . __METHOD__ . ":" . __LINE__);
         }
     }

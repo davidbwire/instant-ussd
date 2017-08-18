@@ -5,14 +5,14 @@ namespace Bitmarshals\InstantUssd;
 /**
  * Description of UssdMenuConfig
  * 
- * - There can only be one next_menu_id that may point to a skippable or mandatory menu
+ * - There can only be one next_screen that may point to a skippable or mandatory menu
  * - A skippable stops event propagation and returns a Skippable object
  *
  * @author David Bwire
  */
 class UssdMenuConfig {
 
-    // next_menu_id points to only one menu
+    // next_screen points to only one menu
     // menu_items should be ranked according to how they are listed in config file
     const RANKING_TYPE_PREDETERMINED         = 'predetermined';
     // ussd session data is temporarily stored in the database
@@ -24,7 +24,7 @@ class UssdMenuConfig {
      * 
      * */
     // -- user response type helps when determining next menu
-    // --- USER_RESPONSE_TYPE_CUSTOM may need next_menu_id_custom/next_menu_id_dynamic 
+    // --- USER_RESPONSE_TYPE_CUSTOM may need next_screen_custom/next_screen_dynamic 
     // user selects a number from an indexed list (predetermined/dynamic) eg 1
     // applies to predetermined lists only?? seems so
     const USER_RESPONSE_TYPE_INDEX           = 'index';

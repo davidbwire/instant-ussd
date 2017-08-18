@@ -16,7 +16,7 @@ class UssdMenuItem {
     protected $nextMenuId;
 
     /**
-     * Is the next_menu_id going to be a reset to a previous menu position?
+     * Is the next_screen going to be a reset to a previous menu position?
      * 
      * @var bool 
      */

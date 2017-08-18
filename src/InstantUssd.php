@@ -167,7 +167,7 @@ class InstantUssd {
      * @return Response
      */
     public function showNextMenuId(array $ussdData, $nextMenuId) {
-        // with the next_menu_id
+        // with the next_screen
         // disable incoming cycle
         $ussdData['is_incoming_data'] = false;
         // don't use triggerUntil as it will prevent tracking
