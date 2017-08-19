@@ -26,7 +26,7 @@ return [
                 "is_skippable" => false,
                 "footer" => "Questions? Call +254712688559",
                 "menu_items_ranking_type" => UssdMenuConfig::RANKING_TYPE_PREDETERMINED,
-                "valid_values" => range(1, 2),
+                "valid_keys" => range(1, 2),
                 "loopset_name" => "",
                 // menu_items
                 "menu_items" => [

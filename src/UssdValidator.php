@@ -49,9 +49,9 @@ abstract class UssdValidator {
         // to prevent validation errors
         $isValid = true;
         // Validate the USSD keys provided
-        if (array_key_exists('valid_values', $this->lastServedMenuConfig) &&
-                !empty($this->lastServedMenuConfig['valid_values'])) {
-            $validValues = $this->lastServedMenuConfig['valid_values'];
+        if (array_key_exists('valid_keys', $this->lastServedMenuConfig) &&
+                !empty($this->lastServedMenuConfig['valid_keys'])) {
+            $validValues = $this->lastServedMenuConfig['valid_keys'];
             $isValid     = $this->inArrayValidation($validValues, $latestResponse);
             if (!$isValid) {
                 $ussdData['error_message'] = "Invalid choice. Reply with " . reset($validValues) . '-' . end($validValues) . '.';
