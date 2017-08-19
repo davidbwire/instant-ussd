@@ -12,7 +12,7 @@ use Exception;
  *
  * @author David Bwire
  */
-class SharedUssdEventManager extends SharedEventManager {
+class UssdEventManager extends SharedEventManager {
 
     /**
      *

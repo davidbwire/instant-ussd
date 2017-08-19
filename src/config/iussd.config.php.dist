@@ -6,7 +6,7 @@ use Bitmarshals\InstantUssd;
 
 return [
     "instant_ussd" => [
-        "shared_ussd_event_manager" => InstantUssd\SharedUssdEventManager::class,
+        "ussd_event_manager" => InstantUssd\UssdEventManager::class,
         'db' => [
             'driver' => 'Mysqli', // Mysqli, Sqlsrv, Pdo_Sqlite, Pdo_Mysql, Pdo(= Other PDO Driver)
             'database' => 'instant_ussd',

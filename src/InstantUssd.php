@@ -63,7 +63,7 @@ class InstantUssd {
      *
      * @var string 
      */
-    protected $sharedUssdEventManager;
+    protected $ussdEventManager;
 
     /**
      *
@@ -95,8 +95,8 @@ class InstantUssd {
         $ussdResponseGenerator   = new UssdResponseGenerator();
 
         $ussdMenusConfig   = $instantUssdConfig['ussd_menus'];
-        $sharedUssdEventManager = $instantUssdConfig['shared_ussd_event_manager'];
-        $this->setSharedUssdEventManager($sharedUssdEventManager);
+        $ussdEventManager = $instantUssdConfig['ussd_event_manager'];
+        $this->setUssdEventManager($ussdEventManager);
 
         $this->ussdMenusConfig       = $ussdMenusConfig;
         $this->ussdResponseGenerator = $ussdResponseGenerator;
@@ -294,7 +294,6 @@ class InstantUssd {
 
     /**
      * Used to access functionality from the class that initializes InstantUssd
-     * This method will generally be called from a sharedUssdEventManager
      * 
      * $initializer = $ussdEvent
      *                  ->getTarget()->getInitializer();
@@ -337,10 +336,10 @@ class InstantUssd {
      */
     public function getEventManager() {
         if (!$this->eventManager) {
-            if (empty($this->sharedUssdEventManager)) {
-                throw new Exception('SharedUssdEventManager class not set.');
+            if (empty($this->ussdEventManager)) {
+                throw new Exception('UssdEventManager class not set.');
             }
-            $class = $this->sharedUssdEventManager;
+            $class = $this->ussdEventManager;
             $this->setEventManager(new EventManager(new $class($this->ussdMenusConfig)));
         }
         return $this->eventManager;
@@ -359,13 +358,13 @@ class InstantUssd {
 
     /**
      * 
-     * @param string $sharedUssdEventManager
+     * @param string $ussdEventManager
      */
-    protected function setSharedUssdEventManager($sharedUssdEventManager) {
-        if (!(gettype($sharedUssdEventManager) === 'string')) {
-            throw new \Exception('shared_ussd_event_manager should be a string.');
+    protected function setUssdEventManager($ussdEventManager) {
+        if (!(gettype($ussdEventManager) === 'string')) {
+            throw new \Exception('ussd_event_manager should be a string.');
         }
-        $this->sharedUssdEventManager = $sharedUssdEventManager;
+        $this->ussdEventManager = $ussdEventManager;
     }
 
     /**
