@@ -8,11 +8,11 @@ use Bitmarshals\InstantUssd\Listeners\System;
 use Exception;
 
 /**
- * UssdEventListener is a SharedEventManager that tracks all listeners for a specific 
+ * SharedUssdEventManager is a SharedEventManager that tracks all listeners for a specific 
  *
  * @author David Bwire
  */
-class UssdEventListener extends SharedEventManager {
+class SharedUssdEventManager extends SharedEventManager {
 
     /**
      *
