@@ -231,7 +231,8 @@ class UssdResponseGenerator {
             // return the starting menu to build a longer looping chain
             return new UssdMenuItem($loopStartMenuId);
         }
-        $lastServedMenuItems = (array_key_exists('menu_items', $menuConfig)) ? $menuConfig['menu_items'] : [];
+        $lastServedMenuItems = (array_key_exists('menu_items', $menuConfig) &&
+                is_array($menuConfig['menu_items'])) ? $menuConfig['menu_items'] : [];
         $totalMenuItems      = count($lastServedMenuItems);
         if ($totalMenuItems === 0) {
             // throw new Exception("$lastServedMenu should have should be at least"
