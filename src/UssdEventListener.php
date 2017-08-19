@@ -32,27 +32,6 @@ class UssdEventListener extends SharedEventManager {
     }
 
     /**
-     * Clears all menu tracking history. Only called when user visits home page.
-     * 
-     * Note - an application may have more than one home page
-     * 
-     * @param UssdEvent $e
-     * @return boolean
-     */
-    protected function clearMenuVisitHistory(UssdEvent $e) {
-        // retreive mapper
-        $ussdMenusServedMapper = $e->getServiceLocator()
-                ->get(UssdMenusServedMapper::class);
-        // instance check
-        if (!$ussdMenusServedMapper instanceof UssdMenusServedMapper) {
-            return false;
-        }
-        // clear menu visit history
-        $result = $ussdMenusServedMapper->clearMenuVisitHistoryBySessionId($e->getParam('session_id'));
-        return $result;
-    }
-
-    /**
      * 
      * @param UssdEvent $e
      * @param array $menuConfig

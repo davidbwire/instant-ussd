@@ -474,4 +474,20 @@ class InstantUssd {
         return $shouldStopLooping;
     }
 
+    /**
+     * Clears all menu tracking history. Only called when user visits home page.
+     * 
+     * Note - an application may have more than one home page
+     * 
+     * @param UssdEvent $e
+     * @return boolean
+     */
+    public function clearMenuVisitHistory(UssdEvent $e) {
+        // retreive mapper
+        $ussdMenusServedMapper = $this->getUssdMenusServedMapper();
+        // clear menu visit history
+        $result                = $ussdMenusServedMapper->clearMenuVisitHistoryBySessionId($e->getParam('session_id'));
+        return $result;
+    }
+
 }
