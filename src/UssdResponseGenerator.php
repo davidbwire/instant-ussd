@@ -2,7 +2,7 @@
 
 namespace Bitmarshals\InstantUssd;
 
-use Zend\Http\PhpEnvironment\Response;
+use Bitmarshals\InstantUssd\Response;
 use Exception;
 use Bitmarshals\InstantUssd\UssdMenuItem;
 
@@ -129,7 +129,7 @@ class UssdResponseGenerator {
      * @param array $menuConfig
      * @param bool $continueUssdHops
      * @param bool $appendNavigationText
-     * @return \Zend\Http\PhpEnvironment\Response
+     * @return Response
      */
     public function composeAndRenderUssdMenu(array $menuConfig, $continueUssdHops = true, $appendNavigationText = true) {
         $ussdContent = $this->composeUssdMenu($menuConfig, $continueUssdHops, $appendNavigationText);

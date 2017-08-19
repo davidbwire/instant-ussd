@@ -5,7 +5,7 @@ namespace Bitmarshals\InstantUssd;
 use Exception;
 use Bitmarshals\InstantUssd\UssdResponseGenerator;
 use Bitmarshals\InstantUssd\UssdService;
-use Zend\Http\PhpEnvironment\Response;
+use Bitmarshals\InstantUssd\Response;
 use Zend\EventManager\EventManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Bitmarshals\InstantUssd\Mapper\UssdMenusServedMapper;

@@ -5,7 +5,7 @@ namespace Bitmarshals\InstantUssd\Listeners;
 use Bitmarshals\InstantUssd\UssdEvent;
 use Bitmarshals\InstantUssd\Mapper\UssdMenusServedMapper;
 use Bitmarshals\InstantUssd\UssdResponseGenerator;
-use Zend\Http\PhpEnvironment\Response;
+use Bitmarshals\InstantUssd\Response;
 use Exception;
 use Bitmarshals\InstantUssd\Mapper\UssdLoopMapper;
 
