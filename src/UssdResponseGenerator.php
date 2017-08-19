@@ -267,7 +267,12 @@ class UssdResponseGenerator {
 
             if (is_array($targetMenuItem) && array_key_exists('next_screen', $targetMenuItem) &&
                     !empty($targetMenuItem['next_screen'])) {
-                return new UssdMenuItem($targetMenuItem['next_screen']);
+                $ussdMenuItem = new UssdMenuItem($targetMenuItem['next_screen']);
+                // check if we're jumping back in history
+                if (array_key_exists('is_reset_to_previous_position', $currentMenuItem)) {
+                    $ussdMenuItem->setIsResetToPreviousPosition((bool) $currentMenuItem['is_reset_to_previous_position']);
+                }
+                return $ussdMenuItem;
             } else {
                 throw new Exception("Could not retreive next_screen from "
                 . "menu items of $lastServedMenu using the latest response key ($latestResponseKey) " . __METHOD__ . ":" . __LINE__);
