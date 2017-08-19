@@ -115,4 +115,20 @@ class UssdEvent extends Event {
         . " from InstantUssd class");
     }
 
+    /**
+     * 
+     * @param array $menuConfig
+     */
+    public function attachDynamicErrors(array &$menuConfig) {
+
+        $errorMessage            = $this->getParam('error_message', "");
+        $menuConfig['has_error'] = !$this->getParam('is_valid', true);
+
+        $defaultErrorMessage = array_key_exists('error_message', $menuConfig) ? $menuConfig['error_message'] : "";
+        if ($menuConfig['has_error'] &&
+                empty($defaultErrorMessage)) {
+            $menuConfig['error_message'] = $errorMessage;
+        }
+    }
+
 }

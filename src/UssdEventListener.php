@@ -32,24 +32,6 @@ class UssdEventListener extends SharedEventManager {
     }
 
     /**
-     * 
-     * @param UssdEvent $e
-     * @param array $menuConfig
-     */
-    protected function attachDynamicErrors(UssdEvent $e, array &$menuConfig) {
-
-        $errorMessage            = $e->getParam('error_message', "");
-        $menuConfig['has_error'] = !$e->getParam('is_valid', true);
-
-        $defaultErrorMessage = array_key_exists('error_message', $menuConfig) ? $menuConfig['error_message'] : "";
-        if (array_key_exists('has_error', $menuConfig) &&
-                $menuConfig['has_error'] &&
-                empty($defaultErrorMessage)) {
-            $menuConfig['error_message'] = $errorMessage;
-        }
-    }
-
-    /**
      * Attaches common USSD menu events
      */
     protected function attachSystemEvents(array &$ussdMenusConfig) {
