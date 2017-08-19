@@ -106,7 +106,7 @@ class UssdResponseGenerator {
                 // indeterminate menus may have a single list item that just point to it's next call
                 if (array_key_exists('description', $menuItem) && !empty($menuItem['description'])) {
                     // we have a single menu item attach and break
-                    $responseText = $responseText . $menuItem['description'] . $this->lineBreak();
+                    $responseText = $responseText . ("1. ") . $menuItem['description'] . $this->lineBreak();
                 } else {
                     // @todo log notice
                 }
