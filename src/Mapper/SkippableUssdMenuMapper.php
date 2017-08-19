@@ -4,6 +4,8 @@ namespace Bitmarshals\InstantUssd\Mapper;
 
 use Bitmarshals\InstantUssd\Mapper\TableGateway;
 use Bitmarshals\InstantUssd\Contracts\SkippableInterface;
+use Zend\Db\Sql\Predicate\PredicateInterface;
+use Zend\Db\Sql\Where;
 
 /**
  * Description of SkippableUssdMenuMapper
@@ -14,16 +16,16 @@ class SkippableUssdMenuMapper extends TableGateway implements SkippableInterface
 
     /**
      * 
-     * @param array $where ["menu_id" => $menuId, "reference_id" => $referenceId]
+     * @param PredicateInterface|Where|array  eg ["menu_id" => $menuId, "reference_id" => $referenceId]
      * @param string $referenceTable The table you'd like to check if the given menu_id is skippable
-     * @return bool
+     * @return boolean
      */
-    public function isSkippable(array $where, $referenceTable = null) {
+    public function isSkippable($predicate, $referenceTable = null) {
 
         $sql    = $this->getSlaveSql($referenceTable);
         $select = $sql->select()
                 ->columns(['is_skippable'])
-                ->where($where);
+                ->where($predicate);
 
         $result = $sql->prepareStatementForSqlObject($select)
                 ->execute();

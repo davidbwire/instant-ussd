@@ -2,6 +2,9 @@
 
 namespace Bitmarshals\InstantUssd\Contracts;
 
+use Zend\Db\Sql\Predicate\PredicateInterface;
+use Zend\Db\Sql\Where;
+
 /**
  * Description of SkippableInterface
  *
@@ -11,9 +14,9 @@ interface SkippableInterface {
 
     /**
      * 
-     * @param array $where ["menu_id" => $menuId, "reference_id" => $referenceId]
+     * @param PredicateInterface|Where|array  ["menu_id" => $menuId, "reference_id" => $referenceId]
      * @param string $referenceTable The table you'd like to check if the given menu_id is skippable
-     * @return bool
+     * @return boolean
      */
-    public function isSkippable(array $where, $referenceTable = null);
+    public function isSkippable($predicate, $referenceTable = null);
 }
