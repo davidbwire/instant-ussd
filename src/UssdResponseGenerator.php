@@ -270,8 +270,8 @@ class UssdResponseGenerator {
                     !empty($targetMenuItem['next_screen'])) {
                 $ussdMenuItem = new UssdMenuItem($targetMenuItem['next_screen']);
                 // check if we're jumping back in history
-                if (array_key_exists('is_reset_to_previous_position', $currentMenuItem)) {
-                    $ussdMenuItem->setIsResetToPreviousPosition((bool) $currentMenuItem['is_reset_to_previous_position']);
+                if (array_key_exists('is_reset_to_previous_position', $targetMenuItem)) {
+                    $ussdMenuItem->setIsResetToPreviousPosition((bool) $targetMenuItem['is_reset_to_previous_position']);
                 }
                 return $ussdMenuItem;
             } else {
