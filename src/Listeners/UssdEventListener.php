@@ -6,6 +6,7 @@ use Bitmarshals\InstantUssd\UssdEvent;
 use Bitmarshals\InstantUssd\UssdResponseGenerator;
 use Bitmarshals\InstantUssd\UssdMenuItem;
 use Bitmarshals\InstantUssd\Response;
+use Exception;
 
 /**
  * Description of UssdEventListener
@@ -52,6 +53,12 @@ class UssdEventListener {
      * @var UssdResponseGenerator 
      */
     protected $ussdResponseGenerator;
+
+    /**
+     *
+     * @var UssdMenuItem 
+     */
+    protected $alternativeScreen;
 
     /**
      * 
@@ -162,27 +169,41 @@ class UssdEventListener {
      * @return boolean
      */
     protected function isSkippableScreen() {
-        /* $isSkippableMenu = $this->ussdEvent->getInstantUssd()
-          ->getSkippableUssdMenuMapper()
-          ->isSkippable(['col_1' => $col1Val,
-          'col_2' => $col2Val, 'col_n' => $colNVal], $tableToCheck); */
+        //        $isSkippableMenu = $this->ussdEvent->getInstantUssd()
+        //                ->getSkippableUssdMenuMapper()
+        //                ->isSkippable(['col_1' => $col1Val,
+        //            'col_2' => $col2Val, 'col_n' => $colNVal], $tableToCheck);
+        //        if ($isSkippableMenu === true) {
+        //            $this->setAlternativeScreen($alternativeScreenName, $isResetToPreviousPosition);
+        //            return $isSkippableMenu;
+        //        }
+        //        return false;
         return (bool) $this->ussdEvent->getParam('is_skippable', false);
     }
 
     /**
-     * Override this method to manage optional screens/pages
+     * You may override this method to manage optional screens/pages or 
      * 
      * @return UssdMenuItem
+     * @throws Exception
      */
     protected function getAlternativeScreen() {
-        // set the screen we should show
-        $alternativeScreen         = "_exit_";
-        // are we going back to an already displayed screen?
-        $isResetToPreviousPosition = false;
+        if (!$this->alternativeScreen) {
+            throw new Exception('Alternative screen not set.');
+        }
+        return $this->alternativeScreen;
+    }
 
-        $ussdMenuItem = new UssdMenuItem($alternativeScreen);
-        $ussdMenuItem->setIsResetToPreviousPosition($isResetToPreviousPosition);
-        return $ussdMenuItem;
+    /**
+     * 
+     * @param string $alternativeScreenName Set the screen we should show instead of the default one pointed by next_screen key
+     * @param boolean $isResetToPreviousPosition
+     */
+    protected function setAlternativeScreen($alternativeScreenName, $isResetToPreviousPosition = false) {
+        $alternativeScreen       = new UssdMenuItem($alternativeScreenName);
+        // are we going back to an already displayed screen?
+        $alternativeScreen->setIsResetToPreviousPosition($isResetToPreviousPosition);
+        $this->alternativeScreen = $alternativeScreen;
     }
 
 }
