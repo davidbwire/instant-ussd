@@ -9,6 +9,9 @@ use Bitmarshals\InstantUssd\Response;
 
 /**
  * Description of UssdEventListener
+ * 
+ * Extend this class and override some of it's methods to quickly build custom ussd
+ * event listeners.
  *
  * @author David Bwire
  */
@@ -100,7 +103,7 @@ class UssdEventListener {
         if (!empty($targetLoopset)) {
             $this->initializeLoopingSession($targetLoopset);
         }
-        // Override method & do your processing; save to db; etc
+        // do your processing; save to db; etc
         $this->captureIncomingData();
         // return UssdMenuItem with pointer to the next screen
         return $this->nextMenu();
