@@ -10,11 +10,14 @@ use Exception;
 use Bitmarshals\InstantUssd\Mapper\UssdLoopMapper;
 
 /**
- * Description of System
+ * Description of IUssdEventsListener
+ * 
+ * Listens to events triggered by InstantUssd library
+ * 
  *
  * @author David Bwire
  */
-class System {
+class IUssdEventsListener {
 
     /**
      *

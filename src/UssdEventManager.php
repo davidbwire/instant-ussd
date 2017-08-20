@@ -4,7 +4,7 @@ namespace Bitmarshals\InstantUssd;
 
 use Zend\EventManager\SharedEventManager;
 use Bitmarshals\InstantUssd\UssdResponseGenerator;
-use Bitmarshals\InstantUssd\Listeners\System;
+use Bitmarshals\InstantUssd\Listeners\IUssdEventsListener;
 use Exception;
 
 /**
@@ -34,7 +34,7 @@ class UssdEventManager extends SharedEventManager {
      */
     protected function attachSystemEvents(array &$ussdMenusConfig) {
         // needs to be passed as a call ba
-        $system = new System($ussdMenusConfig);
+        $system = new IUssdEventsListener($ussdMenusConfig);
         // exit
         $this->attach(__NAMESPACE__, '_exit_', function($e) use ($system) {
             return call_user_func([$system, 'onExit'], $e);
