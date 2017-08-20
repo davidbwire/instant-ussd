@@ -437,7 +437,6 @@ class InstantUssd {
      */
     public function shouldStopLooping(array &$menuConfig, UssdEvent $e) {
 
-        $shouldStopLooping = true;
         if (!array_key_exists('is_loop_end', $menuConfig) ||
                 empty($menuConfig['is_loop_end'])) {
             return true;
