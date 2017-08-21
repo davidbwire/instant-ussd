@@ -146,7 +146,7 @@ if (empty($nextScreenId)) {
 return $instantUssd->showNextScreen($ussdData, $nextScreenId)
                 ->send();
 ```
-## Sample Application
+### Sample Application using InstantUssd Library
 
 Check out [InstantUssd App](https://github.com/davidbwire/instant-ussd-app).
 
