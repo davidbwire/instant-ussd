@@ -152,7 +152,7 @@ Check out [InstantUssd App](https://github.com/davidbwire/instant-ussd-app).
 
 ## License
 
-BSD 3-Clause License + [No Public Publishing](instant-ussd/blob/63ccef929d8eaef2cb906df8432765c43f5f713a/LICENSE#L20)
+BSD 3-Clause License + [No Public Publishing](https://github.com/bitmarshals/instant-ussd/blob/00e9deed435471928bad3074eaed2b07c8e5f579/LICENSE#L20)
 
 #### Why the extra restriction?
 
