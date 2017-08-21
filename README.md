@@ -150,6 +150,14 @@ return $instantUssd->showNextScreen($ussdData, $nextScreenId)
 
 Check out [InstantUssd App](https://github.com/davidbwire/instant-ussd-app).
 
+## License
+
+BSD 3-Clause License + [No Public Publishing](instant-ussd/blob/63ccef929d8eaef2cb906df8432765c43f5f713a/LICENSE#L20)
+
+#### Why the extra restriction?
+
+It's a safety clause during the launch phase. The extra restriction SHALL be removed in future. 
+
 ## Documentation
 
 Please refer to our extensive [Wiki documentation](https://github.com/bitmarshals/instant-ussd/wiki) for more information.
