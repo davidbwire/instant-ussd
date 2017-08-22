@@ -18,6 +18,25 @@ InstantUssd is a USSD development library meant to provide you with a set of too
 optional screens, looping set of screens,  jumping from screen to screen and 
 resuming timed-out USSD sessions
 
+## Installation
+
+You will need PHP 5.6+ to install this package.
+
+You must then modify your `composer.json` file and run `composer update` to include the latest version of the package in your project.
+
+```json
+"require": {
+    "bitmarshals/instant-ussd": "0.1.*"
+}
+```
+
+Or you can run the `composer require` command from your terminal.
+
+```
+composer require bitmarshals/instant-ussd
+```
+Once the package is installed the next step is dependant on which framework you're using. We recommend following [InstantUssd App](https://github.com/davidbwire/instant-ussd-app) file structure.
+
 ## Usage
 
 ### Initialization
