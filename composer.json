@@ -1,0 +1,36 @@
+{
+    "name": "bitmarshals/instant-ussd",
+    "description": "Library to help you rapidly develop and easily maintain your USSD applications.",
+    "type": "library",
+    "license": "proprietary",
+    "keywords": [
+        "ussd",
+        "instant ussd", 
+        "ussd framework",
+        "ussd library",
+        "bitmarshals",
+        "David Bwire"
+    ],
+    "homepage": "https://github.com/bitmarshals/instant-ussd",
+    "autoload": {
+        "psr-4": {
+            "Bitmarshals\\InstantUssd\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.6.0",
+        "zendframework/zend-db": "^2.8.1",
+        "zendframework/zend-eventmanager": "^2.6.3 || ^3.0.1",
+        "zendframework/zend-servicemanager": "^2.7.6 || ^3.1.1",
+        "zendframework/zend-http": "^2.5.4",
+        "zendframework/zend-validator": "^2.9.2"
+    },
+    "authors": [
+        {
+            "name": "David Bwire",
+            "email": "israelbwire@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "stable"
+}
