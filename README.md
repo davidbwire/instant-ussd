@@ -35,7 +35,7 @@ Or you can run the `composer require` command from your terminal.
 ```
 composer require bitmarshals/instant-ussd
 ```
-Once the package is installed the next step is dependant on which framework you're using. We recommend following [InstantUssd App](https://github.com/davidbwire/instant-ussd-app) file structure.
+Once the package is installed the next step is dependant on which framework you're using.
 
 ## Usage
 
@@ -165,7 +165,7 @@ if (empty($nextScreenId)) {
 return $instantUssd->showNextScreen($ussdData, $nextScreenId)
                 ->send();
 ```
-### Sample Application using InstantUssd Library
+### Sample Application
 
 Check out [InstantUssd App](https://github.com/davidbwire/instant-ussd-app).
 
