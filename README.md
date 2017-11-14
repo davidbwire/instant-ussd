@@ -171,11 +171,7 @@ Check out [InstantUssd App](https://github.com/davidbwire/instant-ussd-app).
 
 ## License
 
-BSD 3-Clause License + [No Public Publishing](https://github.com/bitmarshals/instant-ussd/blob/35200e1ac87d07f5b46459c8af463221e3573326/LICENSE#L20)
-
-#### Why the extra restriction?
-
-It's a safety clause during the launch phase. The extra restriction SHALL be removed in future. 
+BSD 3-Clause License
 
 ## Documentation
 

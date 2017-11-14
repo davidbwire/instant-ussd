@@ -1,6 +1,6 @@
 {
     "name": "bitmarshals/instant-ussd",
-    "description": "Library to help your rapidly develop and easily maintain your USSD applications.",
+    "description": "Library to help you rapidly develop and easily maintain your USSD applications.",
     "type": "library",
     "license": "BSD-3-Clause",
     "keywords": [
