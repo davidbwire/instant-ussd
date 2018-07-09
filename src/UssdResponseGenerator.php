@@ -38,13 +38,13 @@ class UssdResponseGenerator {
     public function composeUssdMenu(array $menuConfig, $continueUssdHops = true, $appendNavigationText = true) {
 
         // extract menu data
-        $menuTitle    = array_key_exists('title', $menuConfig) ? $menuConfig['title'] : "";
-        $menuBody     = array_key_exists('body', $menuConfig) ? $menuConfig['body'] : "";
-        $menuFooter   = array_key_exists('footer', $menuConfig) ? $menuConfig['footer'] : "";
-        $menuItems    = array_key_exists('menu_items', $menuConfig) ? $menuConfig['menu_items'] : [];
+        $menuTitle = array_key_exists('title', $menuConfig) ? $menuConfig['title'] : "";
+        $menuBody = array_key_exists('body', $menuConfig) ? $menuConfig['body'] : "";
+        $menuFooter = array_key_exists('footer', $menuConfig) ? $menuConfig['footer'] : "";
+        $menuItems = array_key_exists('menu_items', $menuConfig) ? $menuConfig['menu_items'] : [];
         $errorMessage = array_key_exists('error_message', $menuConfig) ? $menuConfig['error_message'] : "";
-        $hasError     = array_key_exists('has_error', $menuConfig) ? $menuConfig['has_error'] : false;
-        $isSkippable  = array_key_exists('is_skippable', $menuConfig) ? $menuConfig['is_skippable'] : false;
+        $hasError = array_key_exists('has_error', $menuConfig) ? $menuConfig['has_error'] : false;
+        $isSkippable = array_key_exists('is_skippable', $menuConfig) ? $menuConfig['is_skippable'] : false;
 
         if ($isSkippable !== false) {
             // is_skippable is an indicator that menu should have been skipped
@@ -95,7 +95,7 @@ class UssdResponseGenerator {
                         continue;
                     }
                     // rank if we have more than one item in array
-                    $ranking      = $key + 1;
+                    $ranking = $key + 1;
                     $responseText = $responseText . ((string) $ranking) . ". " . $menuItem['description'] . $this->lineBreak();
                     if (($key + 1) == ($length)) {
                         $responseText .= $this->lineBreak();
@@ -233,7 +233,7 @@ class UssdResponseGenerator {
         }
         $lastServedMenuItems = (array_key_exists('menu_items', $menuConfig) &&
                 is_array($menuConfig['menu_items'])) ? $menuConfig['menu_items'] : [];
-        $totalMenuItems      = count($lastServedMenuItems);
+        $totalMenuItems = count($lastServedMenuItems);
         if ($totalMenuItems === 0) {
             // throw new Exception("$lastServedMenu should have should be at least"
             // . " one menu item pointing to the next menu.");
