@@ -27,6 +27,14 @@ class UssdService {
     protected $aNonExtraneousUssdValues;
 
     /**
+     * An array containing all trimmed values keyed without the navigation inouts
+     * eg 0, 00. Used to track pagination
+     *  
+     * @var array 
+     */
+    protected $aNonExtraneousUssdValuesWithLoadMoreKey;
+
+    /**
      *
      * @var string 
      */
@@ -38,20 +46,27 @@ class UssdService {
         $this->aTrimmedUssdValues = $this->trimArrayValues(explode($separator, $ussdText));
         // rid $aTrimmedUssdValues of extraneous values like navigation text etc
         $this->aNonExtraneousUssdValues = $this->removeExtraneousValues($this->aTrimmedUssdValues);
+        // does like above but keeps LOAD_MORE key
+        $this->aNonExtraneousUssdValuesWithLoadMoreKey = $this->removeExtraneousValues($this->aTrimmedUssdValues, false);
     }
 
     /**
      * Remove extraneous USSD values such as navigation and load more values
      * 
      * @param array $aTrimmedUssdValues
+     * @param boolean $removeLoadMoreKeys
      * @return array
      */
-    protected function removeExtraneousValues(array $aTrimmedUssdValues) {
+    protected function removeExtraneousValues(array $aTrimmedUssdValues, $removeLoadMoreKeys = true) {
         // reset index to ensure we're starting from left to right
         reset($aTrimmedUssdValues);
         // these methods should be called in this order
         // remove load more keys
-        $aNonLoadMoreValues = $this->removeAllOccurencesOfLoadMoreKey($aTrimmedUssdValues);
+        if ($removeLoadMoreKeys === true) {
+            $aNonLoadMoreValues = $this->removeAllOccurencesOfLoadMoreKey($aTrimmedUssdValues);
+        } else {
+            $aNonLoadMoreValues = $aTrimmedUssdValues;
+        }
         // remove home page reset keys
         $aNonLoadMoreValuesNonHomeKeyValues = $this->resetToHomeMenuOnHomeKeyEncounter($aNonLoadMoreValues);
         // remove goBackKeyAndPreviousKey
@@ -272,6 +287,7 @@ class UssdService {
             'text' => $ussdParams['text'],
             'a_values_trimmed' => $this->aTrimmedUssdValues,
             'a_values_non_extraneous' => $this->aNonExtraneousUssdValues,
+            'a_values_non_extraneous_with_load_more_key' => $this->aNonExtraneousUssdValuesWithLoadMoreKey,
             // extract & attach latest reponse and first reponse
             'latest_response' => $this->getLatestResponse(),
             'first_response' => $this->getFirstResponse()
