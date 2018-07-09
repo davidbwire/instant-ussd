@@ -67,11 +67,11 @@ class UssdEventListener {
      * @param array $ussdMenusConfig
      */
     public function __construct(UssdEvent $e, array $ussdMenusConfig) {
-        $this->ussdEvent             = $e;
-        $this->ussdMenusConfig       = $ussdMenusConfig;
-        $this->menuConfig            = $ussdMenusConfig[$e->getName()];
-        $this->latestResponse        = $e->getLatestResponse();
-        $this->lastServedMenu        = $e->getName();
+        $this->ussdEvent = $e;
+        $this->ussdMenusConfig = $ussdMenusConfig;
+        $this->menuConfig = $ussdMenusConfig[$e->getName()];
+        $this->latestResponse = $e->getLatestResponse();
+        $this->lastServedMenu = $e->getName();
         $this->ussdResponseGenerator = new UssdResponseGenerator();
     }
 
@@ -99,7 +99,7 @@ class UssdEventListener {
         if (!$e->containsIncomingData()) {
             $e->attachDynamicErrors($this->menuConfig);
             $isValidResponse = $e->getParam('is_valid', true);
-            $isHomeMenu      = (substr($this->lastServedMenu, 0, 5) == 'home_');
+            $isHomeMenu = (substr($this->lastServedMenu, 0, 5) == 'home_');
             if ($isValidResponse && $isHomeMenu) {
                 // this method should only be called by home menus (menus beginning with home_*)
                 $e->getInstantUssd()->clearMenuVisitHistory($e);
@@ -123,7 +123,7 @@ class UssdEventListener {
      * @param string $targetLoopset
      */
     protected function initializeLoopingSession($targetLoopset) {
-        $e             = $this->ussdEvent;
+        $e = $this->ussdEvent;
         // when you override this method; use the correct value of loops required
         $loopsRequired = $this->latestResponse;
 
@@ -147,7 +147,7 @@ class UssdEventListener {
      * @return UssdMenuItem
      */
     protected function nextMenu() {
-        $e           = $this->ussdEvent;
+        $e = $this->ussdEvent;
         // check if we should stop looping
         $stopLooping = $e->getInstantUssd()
                 ->shouldStopLooping($this->menuConfig, $e);
@@ -201,7 +201,7 @@ class UssdEventListener {
      * @param boolean $isResetToPreviousPosition
      */
     protected function setAlternativeScreen($alternativeScreenName, $isResetToPreviousPosition = false) {
-        $alternativeScreen       = new UssdMenuItem($alternativeScreenName);
+        $alternativeScreen = new UssdMenuItem($alternativeScreenName);
         // are we going back to an already displayed screen?
         $alternativeScreen->setIsResetToPreviousPosition($isResetToPreviousPosition);
         $this->alternativeScreen = $alternativeScreen;
