@@ -7,6 +7,7 @@ use Bitmarshals\InstantUssd\UssdResponseGenerator;
 use Bitmarshals\InstantUssd\UssdMenuItem;
 use Bitmarshals\InstantUssd\Response;
 use Exception;
+use GuzzleHttp\Client;
 
 /**
  * Description of UssdEventListener
@@ -17,7 +18,7 @@ use Exception;
  * @todo Rename to ScreenListener
  * @author David Bwire
  */
-class UssdEventListener {
+abstract class UssdEventListener {
 
     /**
      *
@@ -118,6 +119,49 @@ class UssdEventListener {
     }
 
     /**
+     * Check if there's URL to pull menu config from
+     * 
+     * @param array $menuConfig
+     * @return boolean true|false
+     */
+    private function hasDynamicUri(array &$menuConfig = []) {
+        return (array_key_exists('request_config', $menuConfig) &&
+                !empty($menuConfig['request_config']['uri']));
+    }
+
+    /**
+     * @todo Complete Implementation
+     * @param array $currentMenuConfig
+     */
+    protected function updateCurrentMenuConfig(array &$currentMenuConfig) {
+
+        // check if we have a preset URI
+        if (!$this->hasDynamicUri($currentMenuConfig)) {
+            return;
+        }
+        // pull live json data from your external API            
+        $requestConfig = $currentMenuConfig['request_config'];
+        // use 50s as USSD times out after 60s
+        $client = new Client(['timeout' => 50]);
+        $response = $client->request($requestConfig['method'], $requestConfig['uri']
+                , $requestConfig['request_options']);
+        $response instanceof \GuzzleHttp\Psr7\Response;
+        $contents = $response->getBody()->getContents();
+        // @todo - confirm that the content-type is JSON
+        if (($response->getStatusCode() === 200 ) &&
+                !empty($contents)) {
+            $decodedContents = json_decode($contents, true);
+            if (!array_key_exists('menu_items', $decodedContents)) {
+                $currentMenuConfig['menu_items'] = $decodedContents;
+            } else {
+                $currentMenuConfig['menu_items'] = $decodedContents;
+            }
+            // @todo Merge $decodedContents to $menuConfig
+            //array_merge_recursive($menuConfig, $decodedContents)
+        }
+    }
+
+    /**
      * Override this method and get the correct 
      * 
      * @param string $targetLoopset
@@ -156,13 +200,18 @@ class UssdEventListener {
     }
 
     /**
-     * Override this method and add your business logic
+     * Implement this method and add your business logic
      * 
      *  @return void
      */
-    protected function captureIncomingData() {
-        
-    }
+    protected abstract function captureIncomingData();
+
+    /**
+     * Implement this method MUST be implemented by all screens. Use it to to configure a 
+     * menu config
+     * 
+     */
+    protected abstract function configure();
 
     /**
      * Override this method to add logic to check if a screen is skippable

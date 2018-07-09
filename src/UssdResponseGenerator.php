@@ -5,7 +5,6 @@ namespace Bitmarshals\InstantUssd;
 use Bitmarshals\InstantUssd\Response;
 use Exception;
 use Bitmarshals\InstantUssd\UssdMenuItem;
-use GuzzleHttp\Client;
 
 /**
  * Description of UssdResponseGenerator
@@ -38,29 +37,6 @@ class UssdResponseGenerator {
      */
     public function composeUssdMenu(array $menuConfig, $continueUssdHops = true, $appendNavigationText = true) {
 
-        // check if we need to query live data to retreive menu_items
-        if (array_key_exists('request_config', $menuConfig) &&
-                !empty($menuConfig['request_config']['uri'])) {
-            // pull live json data from your external API            
-            $requestConfig = $menuConfig['request_config'];
-            $client = new Client(['timeout' => 40]);
-            $response = $client->request($requestConfig['method'], $requestConfig['uri']
-                    , $requestConfig['request_options']);
-            $response instanceof \GuzzleHttp\Psr7\Response;
-            $contents = $response->getBody()->getContents();
-            // @todo - confirm that the content-type is JSON
-            if (($response->getStatusCode() === 200 ) &&
-                    !empty($contents)) {
-                $decodedContents = json_decode($contents, true);
-                if (!array_key_exists('menu_items', $decodedContents)) {
-                    $menuConfig['menu_items'] = $decodedContents;
-                } else {
-                    $menuConfig['menu_items'] = $decodedContents;
-                }
-                // @todo Merge $decodedContents to $menuConfig
-                //array_merge_recursive($menuConfig, $decodedContents)
-            }
-        }
         // extract menu data
         $menuTitle = array_key_exists('title', $menuConfig) ? $menuConfig['title'] : "";
         $menuBody = array_key_exists('body', $menuConfig) ? $menuConfig['body'] : "";
