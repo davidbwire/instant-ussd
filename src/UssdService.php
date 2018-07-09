@@ -10,9 +10,9 @@ namespace Bitmarshals\InstantUssd;
 class UssdService {
 
     const LOAD_MORE_KEY = "98";
-    const GO_BACK_KEY   = "0";
-    const HOME_KEY      = "00";
-    const EXIT_KEY      = "000";
+    const GO_BACK_KEY = "0";
+    const HOME_KEY = "00";
+    const EXIT_KEY = "000";
 
     /**
      *
@@ -33,9 +33,9 @@ class UssdService {
     protected $ussdText;
 
     public function __construct($ussdText, $separator) {
-        $this->ussdText                 = $ussdText;
+        $this->ussdText = $ussdText;
         // convert ussd text to array and remove extra spaces
-        $this->aTrimmedUssdValues       = $this->trimArrayValues(explode($separator, $ussdText));
+        $this->aTrimmedUssdValues = $this->trimArrayValues(explode($separator, $ussdText));
         // rid $aTrimmedUssdValues of extraneous values like navigation text etc
         $this->aNonExtraneousUssdValues = $this->removeExtraneousValues($this->aTrimmedUssdValues);
     }
@@ -51,11 +51,11 @@ class UssdService {
         reset($aTrimmedUssdValues);
         // these methods should be called in this order
         // remove load more keys
-        $aNonLoadMoreValues                 = $this->removeAllOccurencesOfLoadMoreKey($aTrimmedUssdValues);
+        $aNonLoadMoreValues = $this->removeAllOccurencesOfLoadMoreKey($aTrimmedUssdValues);
         // remove home page reset keys
         $aNonLoadMoreValuesNonHomeKeyValues = $this->resetToHomeMenuOnHomeKeyEncounter($aNonLoadMoreValues);
         // remove goBackKeyAndPreviousKey
-        $finalResult                        = $this->removeAllOccurencesOfGobackKeyOnGoBackKeyEncounter($aNonLoadMoreValuesNonHomeKeyValues);
+        $finalResult = $this->removeAllOccurencesOfGobackKeyOnGoBackKeyEncounter($aNonLoadMoreValuesNonHomeKeyValues);
 
         return $finalResult;
     }
