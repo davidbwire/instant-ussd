@@ -124,26 +124,29 @@ abstract class UssdEventListener {
      * @param array $menuConfig
      * @return boolean true|false
      */
-    private function hasDynamicUri(array &$menuConfig = []) {
+    private function hasDynamicGetUri(array &$menuConfig = []) {
         return (array_key_exists('request_config', $menuConfig) &&
-                !empty($menuConfig['request_config']['uri']));
+                !empty($menuConfig['request_config']['uri']) &&
+                (strtoupper($menuConfig['request_config']['method']) === 'GET'));
     }
 
     /**
+     * Updates the current menu config via GET
+     * 
      * @todo Complete Implementation
      * @param array $currentMenuConfig
      */
     protected function updateCurrentMenuConfig(array &$currentMenuConfig) {
 
         // check if we have a preset URI
-        if (!$this->hasDynamicUri($currentMenuConfig)) {
+        if (!$this->hasDynamicGetUri($currentMenuConfig)) {
             return;
         }
         // pull live json data from your external API            
         $requestConfig = $currentMenuConfig['request_config'];
         // use 50s as USSD times out after 60s
         $client = new Client(['timeout' => 50]);
-        $response = $client->request($requestConfig['method'], $requestConfig['uri']
+        $response = $client->request('GET', $requestConfig['uri']
                 , $requestConfig['request_options']);
         $response instanceof \GuzzleHttp\Psr7\Response;
         $contents = $response->getBody()->getContents();
@@ -156,8 +159,7 @@ abstract class UssdEventListener {
             } else {
                 $currentMenuConfig['menu_items'] = $decodedContents;
             }
-            // @todo Merge $decodedContents to $menuConfig
-            //array_merge_recursive($menuConfig, $decodedContents)
+            // @todo Merge $decodedContents to $currentMenuConfig
         }
     }
 
