@@ -131,7 +131,8 @@ abstract class UssdEventListener {
     }
 
     /**
-     * Updates the current menu config via GET
+     * Automatically updates the current menu config via GET. Override this 
+     * method to come up with your own custom implimentation
      * 
      * @todo Complete Implementation
      * @param array $currentMenuConfig
