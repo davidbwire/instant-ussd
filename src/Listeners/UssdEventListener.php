@@ -214,7 +214,7 @@ abstract class UssdEventListener {
      * menu config
      * 
      */
-    public abstract function configure();
+    public static abstract function configure();
 
     /**
      * Override this method to add logic to check if a screen is skippable
