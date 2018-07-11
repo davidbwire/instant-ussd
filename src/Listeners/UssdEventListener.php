@@ -203,18 +203,18 @@ abstract class UssdEventListener {
     }
 
     /**
-     * Implement this method and add your business logic
-     * 
-     *  @return void
-     */
-    protected abstract function captureIncomingData();
-
-    /**
      * Implement this method MUST be implemented by all screens. Use it to to configure a 
      * menu config
      * 
      */
     public static abstract function configure();
+
+    /**
+     * Implement this method and add your business logic
+     * 
+     *  @return void
+     */
+    protected abstract function captureIncomingData();
 
     /**
      * Override this method to add logic to check if a screen is skippable
