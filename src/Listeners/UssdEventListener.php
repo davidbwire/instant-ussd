@@ -137,7 +137,7 @@ abstract class UssdEventListener {
      * @todo Complete Implementation
      * @param array $currentMenuConfig
      */
-    protected function updateCurrentMenuConfig(array &$currentMenuConfig) {
+    public function updateCurrentMenuConfig(array &$currentMenuConfig) {
 
         // check if we have a preset URI
         if (!$this->hasDynamicGetUri($currentMenuConfig)) {
@@ -214,7 +214,7 @@ abstract class UssdEventListener {
      * menu config
      * 
      */
-    protected abstract function configure();
+    public abstract function configure();
 
     /**
      * Override this method to add logic to check if a screen is skippable
