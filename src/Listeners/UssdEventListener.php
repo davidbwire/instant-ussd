@@ -105,6 +105,9 @@ abstract class UssdEventListener {
                 // this method should only be called by home menus (menus beginning with home_*)
                 $e->getInstantUssd()->clearMenuVisitHistory($e);
             }
+            $this->updateCurrentMenuConfig($this->menuConfig);
+            // update the main screens config
+            $this->ussdMenusConfig[$this->ussdEvent->getName()] = $this->menuConfig;
             return $this->showScreen($continueUssdHops, $appendNavigationText);
         }
         // try see if we can initialize a looping session
@@ -134,7 +137,7 @@ abstract class UssdEventListener {
      * Automatically updates the current menu config via GET. Override this 
      * method to come up with your own custom implimentation
      * 
-     * @todo Complete Implementation
+     * @todo Complete Implementation. It should return a screen config object
      * @param array $currentMenuConfig
      */
     public function updateCurrentMenuConfig(array &$currentMenuConfig) {
