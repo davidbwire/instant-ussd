@@ -8,6 +8,7 @@ use Bitmarshals\InstantUssd\UssdResponseGenerator;
 use Bitmarshals\InstantUssd\Response;
 use Exception;
 use Bitmarshals\InstantUssd\Mapper\UssdLoopMapper;
+use ArrayObject;
 
 /**
  * Description of IUssdEventsListener
@@ -21,11 +22,11 @@ class IUssdEventsListener {
 
     /**
      *
-     * @var array
+     * @var ArrayObject
      */
     protected $ussdMenusConfig;
 
-    public function __construct(array &$ussdMenusConfig) {
+    public function __construct(ArrayObject $ussdMenusConfig) {
         $this->ussdMenusConfig = $ussdMenusConfig;
     }
 
@@ -69,7 +70,7 @@ class IUssdEventsListener {
         }
 
         // fetch the last 2 items in history LIFO
-        $results      = $ussdMenusServedMapper->listServedMenusBySessionId($e->getParam('session_id'), 2, ['id', 'menu_id', 'is_loop_end', 'loopset_name']);
+        $results = $ussdMenusServedMapper->listServedMenusBySessionId($e->getParam('session_id'), 2, ['id', 'menu_id', 'is_loop_end', 'loopset_name']);
         $resultsFound = $results->count();
 
         if (empty($resultsFound)) {
@@ -100,7 +101,7 @@ class IUssdEventsListener {
             // move to next
             $results->next();
             // get previous menu
-            $previousMenu               = $results->current()['menu_id'];
+            $previousMenu = $results->current()['menu_id'];
             // return previous menu
             return $previousMenu;
         }
@@ -138,11 +139,11 @@ class IUssdEventsListener {
      */
     public function onUssdMenuTrigger(UssdEvent $e) {
 
-        $eventName            = $e->getName();
+        $eventName = $e->getName();
         // incoming cycle & system events should not be tracked
         $containsIncomingData = $e->containsIncomingData();
-        $trackingDisabled     = $e->getParam('disable_tracking', false);
-        $isValid              = $e->getParam('is_valid', true);
+        $trackingDisabled = $e->getParam('disable_tracking', false);
+        $isValid = $e->getParam('is_valid', true);
         // test for 'system' events and cancel them
         // system events start with _ (underscore)
         if (preg_match('/^_[a-z]{1,}/', $eventName) || $containsIncomingData || $trackingDisabled || (!$isValid)) {
@@ -156,9 +157,9 @@ class IUssdEventsListener {
         if (!$ussdMenusServedMapper instanceof UssdMenusServedMapper) {
             return false;
         }
-        $menuConfig  = array_key_exists($eventName, $this->ussdMenusConfig) ? $this->ussdMenusConfig[$eventName] : ['loopset_name' => null, 'is_loop_end' => false];
+        $menuConfig = array_key_exists($eventName, $this->ussdMenusConfig) ? $this->ussdMenusConfig[$eventName] : ['loopset_name' => null, 'is_loop_end' => false];
         $loopsetName = array_key_exists('loopset_name', $menuConfig) ? $menuConfig['loopset_name'] : null;
-        $isLoopEnd   = array_key_exists('is_loop_end', $menuConfig) ? $menuConfig['is_loop_end'] : false;
+        $isLoopEnd = array_key_exists('is_loop_end', $menuConfig) ? $menuConfig['is_loop_end'] : false;
 
         // pull params and save
         $result = $ussdMenusServedMapper->push($e->getParam('session_id'), $eventName, $e->getParam('phone_number'), $loopsetName, $isLoopEnd);
@@ -182,7 +183,7 @@ class IUssdEventsListener {
             $menuTitle = "Thank you for using our service.";
         }
         $ussdResponseGenerator = new UssdResponseGenerator();
-        $ussdContent           = $ussdResponseGenerator
+        $ussdContent = $ussdResponseGenerator
                 ->composeUssdMenu(['title' => $menuTitle], false, false);
         return $ussdResponseGenerator
                         ->renderUssdMenu($ussdContent);
@@ -203,7 +204,7 @@ class IUssdEventsListener {
         }
 
         $ussdResponseGenerator = new UssdResponseGenerator();
-        $ussdContent           = $ussdResponseGenerator
+        $ussdContent = $ussdResponseGenerator
                 ->composeUssdMenu(['title' => $menuTitle], true, true);
         return $ussdResponseGenerator
                         ->renderUssdMenu($ussdContent);

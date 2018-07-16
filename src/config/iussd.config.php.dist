@@ -3,8 +3,9 @@
 use Bitmarshals\InstantUssd\Mapper;
 use Bitmarshals\InstantUssd\UssdMenuConfig;
 use Bitmarshals\InstantUssd;
+use ArrayObject;
 
-return [
+$config = [
     "instant_ussd" => [
         "ussd_event_manager" => InstantUssd\UssdEventManager::class,
         'db' => [
@@ -53,3 +54,5 @@ return [
         ]
     ]
 ];
+
+return new ArrayObject($config);

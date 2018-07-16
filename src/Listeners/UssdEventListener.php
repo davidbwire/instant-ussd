@@ -8,6 +8,7 @@ use Bitmarshals\InstantUssd\UssdMenuItem;
 use Bitmarshals\InstantUssd\Response;
 use Exception;
 use GuzzleHttp\Client;
+use ArrayObject;
 
 /**
  * Description of UssdEventListener
@@ -22,15 +23,15 @@ abstract class UssdEventListener {
 
     /**
      *
-     * @var array 
+     * @var ArrayObject 
      */
     protected $menuConfig;
 
     /**
      *
-     * @var array 
+     * @var ArrayObject 
      */
-    protected $ussdMenusConfig;
+    protected static $ussdMenusConfig;
 
     /**
      *
@@ -65,9 +66,9 @@ abstract class UssdEventListener {
     /**
      * 
      * @param UssdEvent $e
-     * @param array $ussdMenusConfig
+     * @param ArrayObject $ussdMenusConfig
      */
-    public function __construct(UssdEvent $e, array $ussdMenusConfig) {
+    public function __construct(UssdEvent $e, ArrayObject $ussdMenusConfig) {
         $this->ussdEvent = $e;
         $this->ussdMenusConfig = $ussdMenusConfig;
         $this->menuConfig = $ussdMenusConfig[$e->getName()];
@@ -124,10 +125,10 @@ abstract class UssdEventListener {
     /**
      * Check if there's URL to pull menu config from
      * 
-     * @param array $menuConfig
+     * @param ArrayObject $menuConfig
      * @return boolean true|false
      */
-    private function hasDynamicGetUri(array &$menuConfig = []) {
+    private function hasDynamicGetUri(ArrayObject $menuConfig) {
         return (array_key_exists('request_config', $menuConfig) &&
                 !empty($menuConfig['request_config']['uri']) &&
                 (strtoupper($menuConfig['request_config']['method']) === 'GET'));
@@ -138,9 +139,9 @@ abstract class UssdEventListener {
      * method to come up with your own custom implimentation
      * 
      * @todo Complete Implementation. It should return a screen config object
-     * @param array $currentMenuConfig
+     * @param ArrayObject $currentMenuConfig
      */
-    public function updateCurrentMenuConfig(array &$currentMenuConfig) {
+    public function updateCurrentMenuConfig(ArrayObject $currentMenuConfig) {
 
         // check if we have a preset URI
         if (!$this->hasDynamicGetUri($currentMenuConfig)) {

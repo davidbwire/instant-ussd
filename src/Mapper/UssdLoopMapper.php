@@ -4,6 +4,7 @@ namespace Bitmarshals\InstantUssd\Mapper;
 
 use Bitmarshals\InstantUssd\Mapper\TableGateway;
 use Exception;
+use ArrayObject;
 
 /**
  * Description of UssdLoopMapper
@@ -63,16 +64,16 @@ class UssdLoopMapper extends TableGateway {
      * 
      * @param string $loopsetName
      * @param string $sessionId
-     * @param array $menuConfig
+     * @param ArrayObject $menuConfig
      * @return bool
      */
-    public function shouldStopLooping($loopsetName, $sessionId, &$menuConfig) {
+    public function shouldStopLooping($loopsetName, $sessionId, ArrayObject $menuConfig) {
         $loopingData = $this->getLoopingData($loopsetName, $sessionId, ['loops_done_so_far', 'loops_required']);
         if (!empty($loopingData)) {
-            $loopsDone                  = $loopingData['loops_done_so_far'];
-            $loopsRequired              = $loopingData['loops_required'];
+            $loopsDone = $loopingData['loops_done_so_far'];
+            $loopsRequired = $loopingData['loops_required'];
             // 
-            $stopLooping                = ($loopsDone === $loopsRequired);
+            $stopLooping = ($loopsDone === $loopsRequired);
             $menuConfig['stop_looping'] = $stopLooping;
             return $stopLooping;
         }
@@ -88,7 +89,7 @@ class UssdLoopMapper extends TableGateway {
      * @return mixed null|array
      */
     private function getLoopingData($loopsetName, $sessionId, $columns = ['id', 'loops_done_so_far', 'loops_required']) {
-        $sql    = $this->getSlaveSql();
+        $sql = $this->getSlaveSql();
         $select = $sql->select()
                 ->columns($columns)
                 ->where(['loopset_name' => $loopsetName, 'session_id' => $sessionId]);
@@ -107,7 +108,7 @@ class UssdLoopMapper extends TableGateway {
      * @return mixed int|null
      */
     public function getLoopsDoneSoFar($loopsetName, $sessionId) {
-        $sql    = $this->getSlaveSql();
+        $sql = $this->getSlaveSql();
         $select = $sql->select()
                 ->columns(['loops_done_so_far'])
                 ->where(['loopset_name' => $loopsetName, 'session_id' => $sessionId]);
@@ -126,7 +127,7 @@ class UssdLoopMapper extends TableGateway {
      * @return boolean
      */
     private function loopingSessionExists($loopsetName, $sessionId) {
-        $sql    = $this->getSlaveSql();
+        $sql = $this->getSlaveSql();
         $select = $sql->select()
                 ->columns(['id'])
                 ->where(['loopset_name' => $loopsetName, 'session_id' => $sessionId]);
@@ -148,7 +149,7 @@ class UssdLoopMapper extends TableGateway {
      */
     public function initializeLoopingSession($loopsetName, $sessionId, $loopsRequired) {
 
-        $sql                  = $this->getSlaveSql();
+        $sql = $this->getSlaveSql();
         $loopingSessionExists = $this->loopingSessionExists($loopsetName, $sessionId);
 
         if (!$loopingSessionExists) {
@@ -179,7 +180,7 @@ class UssdLoopMapper extends TableGateway {
      * @return boolean
      */
     private function updateLoopsDoneSoFarById($id, $loopsDoneSoFar) {
-        $sql    = $this->getSlaveSql();
+        $sql = $this->getSlaveSql();
         $update = $sql->update()
                 ->set(['loops_done_so_far' => $loopsDoneSoFar])
                 ->where(['id' => $id]);

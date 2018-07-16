@@ -30,12 +30,12 @@ class UssdResponseGenerator {
 
     /**
      * 
-     * @param array $menuConfig
+     * @param ArrayObject $menuConfig
      * @param bool $continueUssdHops
      * @param bool $appendNavigationText
      * @return string
      */
-    public function composeUssdMenu(array $menuConfig, $continueUssdHops = true, $appendNavigationText = true) {
+    public function composeUssdMenu(ArrayObject $menuConfig, $continueUssdHops = true, $appendNavigationText = true) {
 
         // extract menu data
         $menuTitle = array_key_exists('title', $menuConfig) ? $menuConfig['title'] : "";
@@ -94,7 +94,7 @@ class UssdResponseGenerator {
                         // skip to the next $menuItem
                         continue;
                     }
-                    // rank if we have more than one item in array
+                    // rank if we have more than one item in ArrayObject
                     $ranking = $key + 1;
                     $responseText = $responseText . ((string) $ranking) . ". " . $menuItem['description'] . $this->lineBreak();
                     if (($key + 1) == ($length)) {
@@ -126,12 +126,12 @@ class UssdResponseGenerator {
 
     /**
      * 
-     * @param array $menuConfig
+     * @param ArrayObject $menuConfig
      * @param bool $continueUssdHops
      * @param bool $appendNavigationText
      * @return Response
      */
-    public function composeAndRenderUssdMenu(array $menuConfig, $continueUssdHops = true, $appendNavigationText = true) {
+    public function composeAndRenderUssdMenu(ArrayObject $menuConfig, $continueUssdHops = true, $appendNavigationText = true) {
         $ussdContent = $this->composeUssdMenu($menuConfig, $continueUssdHops, $appendNavigationText);
         return $this->renderUssdMenu($ussdContent);
     }
@@ -212,13 +212,13 @@ class UssdResponseGenerator {
     /**
      * 
      * @param string $lastServedMenu
-     * @param array $menuConfig
+     * @param ArrayObject $menuConfig
      * @param string $latestResponse
      * @param bool $stopLooping
      * @return UssdMenuItem
      * @throws Exception
      */
-    public function determineNextMenu($lastServedMenu, array $menuConfig, $latestResponse, $stopLooping = true) {
+    public function determineNextMenu($lastServedMenu, ArrayObject $menuConfig, $latestResponse, $stopLooping = true) {
 
         $isLoopEnd = array_key_exists('is_loop_end', $menuConfig) ? $menuConfig['is_loop_end'] : false;
 

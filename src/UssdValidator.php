@@ -26,9 +26,9 @@ abstract class UssdValidator {
     /**
      * 
      * @param string $lastServedMenuId
-     * @param array $lastServedMenuConfig
+     * @param ArrayObject $lastServedMenuConfig
      */
-    public function __construct($lastServedMenuId, array $lastServedMenuConfig) {
+    public function __construct($lastServedMenuId, ArrayObject $lastServedMenuConfig) {
 
         $this->lastServedMenuConfig = $lastServedMenuConfig;
         $this->lastServedMenuId     = $lastServedMenuId;

@@ -117,9 +117,9 @@ class UssdEvent extends Event {
 
     /**
      * 
-     * @param array $menuConfig
+     * @param ArrayObject $menuConfig
      */
-    public function attachDynamicErrors(array &$menuConfig) {
+    public function attachDynamicErrors(ArrayObject $menuConfig) {
 
         $errorMessage            = $this->getParam('error_message', "");
         $menuConfig['has_error'] = !$this->getParam('is_valid', true);

@@ -22,9 +22,9 @@ class UssdEventManager extends SharedEventManager {
 
     /**
      * 
-     * @param array $ussdMenusConfig
+     * @param ArrayObject $ussdMenusConfig
      */
-    public function __construct(array $ussdMenusConfig) {
+    public function __construct(ArrayObject $ussdMenusConfig) {
         $this->attachSystemEvents($ussdMenusConfig);
         $this->ussdResponseGenerator = new UssdResponseGenerator();
     }
@@ -32,7 +32,7 @@ class UssdEventManager extends SharedEventManager {
     /**
      * Attaches common USSD menu events
      */
-    protected function attachSystemEvents(array &$ussdMenusConfig) {
+    protected function attachSystemEvents(ArrayObject $ussdMenusConfig) {
         // needs to be passed as a call ba
         $system = new IUssdEventsListener($ussdMenusConfig);
         // exit
