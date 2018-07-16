@@ -6,6 +6,7 @@ use Zend\EventManager\SharedEventManager;
 use Bitmarshals\InstantUssd\UssdResponseGenerator;
 use Bitmarshals\InstantUssd\Listeners\IUssdEventsListener;
 use Exception;
+use ArrayObject;
 
 /**
  * SharedUssdEventManager is a SharedEventManager that tracks all listeners for a specific 
