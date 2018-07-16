@@ -15,6 +15,7 @@ use Zend\ServiceManager\ServiceManager;
 use Bitmarshals\InstantUssd\UssdMenuItem;
 use Zend\EventManager\EventManagerInterface;
 use Bitmarshals\InstantUssd\UssdEvent;
+use ArrayObject;
 
 /**
  * Description of InstantUssd
