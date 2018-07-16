@@ -107,11 +107,11 @@ class InstantUssd {
 
     /**
      * 
-     * @param ArrayObject $ussdData
+     * @param array $ussdData
      * @param string $errorMessage
      * @return Response
      */
-    public function showError($ussdData, $errorMessage = null) {
+    public function showError(array $ussdData, $errorMessage = null) {
         $ussdData['error_message'] = $errorMessage;
         $results                   = $this->eventManager->triggerUntil(function($result) {
             return ($result instanceof Response);
@@ -121,10 +121,10 @@ class InstantUssd {
 
     /**
      * 
-     * @param ArrayObject $ussdData
+     * @param array $ussdData
      * @return Response|void
      */
-    public function exitUssd(ArrayObject $ussdData) {
+    public function exitUssd(array $ussdData) {
 
         // trigger until we get a Response
         $results = $this->eventManager->triggerUntil(function($result) {
@@ -141,11 +141,11 @@ class InstantUssd {
 
     /**
      * 
-     * @param ArrayObject $ussdData
+     * @param array $ussdData
      * @param string $homePageMenuId
      * @return Response
      */
-    public function showHomePage(ArrayObject $ussdData, $homePageMenuId) {
+    public function showHomePage(array $ussdData, $homePageMenuId) {
         // enforce home page format
         if (!(substr($homePageMenuId, 0, 5) === 'home_')) {
             throw new Exception("Home pages must begin with 'home_'");
@@ -165,11 +165,11 @@ class InstantUssd {
 
     /**
      * 
-     * @param ArrayObject $ussdData
+     * @param array $ussdData
      * @param string $nextScreenId
      * @return Response
      */
-    public function showNextScreen(ArrayObject $ussdData, $nextScreenId) {
+    public function showNextScreen(array $ussdData, $nextScreenId) {
         // with the next_screen
         // disable incoming cycle
         $ussdData['is_incoming_data'] = false;
@@ -194,10 +194,10 @@ class InstantUssd {
 
     /**
      * 
-     * @param ArrayObject $ussdData
+     * @param array $ussdData
      * @return mixed Response|false
      */
-    public function goBack(ArrayObject $ussdData) {
+    public function goBack(array $ussdData) {
         // try and find the previous menu
         $results      = $this->eventManager->trigger('_go_back_.pre', $this, $ussdData);
         // retreive first data
@@ -370,10 +370,10 @@ class InstantUssd {
     /**
      * get last served menu_id from database
      * 
-     * @param ArrayObject $ussdData
+     * @param array $ussdData
      * @return mixed string|null
      */
-    public function retrieveLastServedMenuId(ArrayObject $ussdData) {
+    public function retrieveLastServedMenuId(array $ussdData) {
         $resultsMenuId    = $this->eventManager
                 ->trigger('_retreive_last_served_menu_', $this, $ussdData);
         $lastServedMenuId = $resultsMenuId->first();
@@ -382,10 +382,10 @@ class InstantUssd {
 
     /**
      * 
-     * @param ArrayObject $ussdData
+     * @param array $ussdData
      * @return mixed ArrayObject|false|null
      */
-    public function retrieveMenuConfig(ArrayObject $ussdData) {
+    public function retrieveMenuConfig(array $ussdData) {
         $resultsMenuConfig = $this->eventManager
                 ->trigger('_retreive_menu_config_', $this, $ussdData);
         $menuConfig        = $resultsMenuConfig->first();
@@ -396,10 +396,10 @@ class InstantUssd {
      * Send data for processing by the listener and returns pointer to the next screen
      * 
      * @param string $lastServedMenuId
-     * @param ArrayObject $ussdData
+     * @param array $ussdData
      * @return mixed boolean|string pointer to the next screen or false
      */
-    public function processIncomingData($lastServedMenuId, ArrayObject $ussdData) {
+    public function processIncomingData($lastServedMenuId, array $ussdData) {
 
         // activate incoming data state
         $ussdData['is_incoming_data'] = true;
