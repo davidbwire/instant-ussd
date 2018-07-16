@@ -31,7 +31,7 @@ abstract class UssdEventListener {
      *
      * @var ArrayObject 
      */
-    protected static $ussdMenusConfig;
+    protected $ussdMenusConfig;
 
     /**
      *
