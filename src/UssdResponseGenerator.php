@@ -5,6 +5,7 @@ namespace Bitmarshals\InstantUssd;
 use Bitmarshals\InstantUssd\Response;
 use Exception;
 use Bitmarshals\InstantUssd\UssdMenuItem;
+use ArrayObject;
 
 /**
  * Description of UssdResponseGenerator

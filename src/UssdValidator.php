@@ -3,6 +3,7 @@
 namespace Bitmarshals\InstantUssd;
 
 use Zend\Validator\InArray;
+use ArrayObject;
 
 /**
  * Description of UssdValidator

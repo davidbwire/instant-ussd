@@ -6,6 +6,7 @@ use Zend\EventManager\Event;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Exception;
 use Bitmarshals\InstantUssd\InstantUssd;
+use ArrayObject;
 
 /**
  * Description of UssdEvent
