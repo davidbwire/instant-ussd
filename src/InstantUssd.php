@@ -421,7 +421,7 @@ class InstantUssd {
         // check if it's a parent node reset
         if ($isResetToPreviousPosition) {
             $this->getUssdMenusServedMapper()
-                    ->resetMenuVisitHistoryToPreviousPosition($ussdData['sessionId'], $nextScreenId);
+                    ->resetMenuVisitHistoryToPreviousPosition($ussdData['session_id'], $nextScreenId);
         }
         // pointer to the next screen
         return $nextScreenId;
