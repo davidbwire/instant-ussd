@@ -184,7 +184,7 @@ class IUssdEventsListener {
         }
         $ussdResponseGenerator = new UssdResponseGenerator();
         $ussdContent = $ussdResponseGenerator
-                ->composeUssdMenu(['title' => $menuTitle], false, false);
+                ->composeUssdMenu(new ArrayObject(['title' => $menuTitle]), false, false);
         return $ussdResponseGenerator
                         ->renderUssdMenu($ussdContent);
     }
@@ -205,7 +205,7 @@ class IUssdEventsListener {
 
         $ussdResponseGenerator = new UssdResponseGenerator();
         $ussdContent = $ussdResponseGenerator
-                ->composeUssdMenu(['title' => $menuTitle], true, true);
+                ->composeUssdMenu(new ArrayObject(['title' => $menuTitle]), true, true);
         return $ussdResponseGenerator
                         ->renderUssdMenu($ussdContent);
     }
