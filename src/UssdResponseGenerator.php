@@ -68,8 +68,15 @@ class UssdResponseGenerator {
             $appendNavigationText = false;
         }
 
-        if (array_key_exists('prepend_continuity_text', $menuConfig) &&
-                ($menuConfig['prepend_continuity_text'] === true)) {
+        if (array_key_exists('prepend_continuity_text', $menuConfig)) {
+            if ($menuConfig['prepend_continuity_text'] === true) {
+                if ($continueUssdHops === true) {
+                    $responseText = $this->con();
+                } else {
+                    $responseText = $this->end();
+                }
+            }
+        } else {
             // indicate if we're continuing or ending
             if ($continueUssdHops === true) {
                 $responseText = $this->con();
