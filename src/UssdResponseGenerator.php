@@ -122,6 +122,7 @@ class UssdResponseGenerator {
                     // @todo log notice
                 }
             }
+            $responseText = $responseText . $this->lineBreak();
         }
         // see if menufooter is attached
         if ($menuFooter) {
