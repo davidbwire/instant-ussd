@@ -143,7 +143,8 @@ class UssdResponseGenerator {
         }
         // check if we should append navigation text
         if ($appendNavigationText === true) {
-            if (array_key_exists('navigation_text', $menuConfig)) {
+            if (array_key_exists('navigation_text', $menuConfig) &&
+                    !empty($menuConfig['navigation_text'])) {
                 return $responseText . $menuConfig['navigation_text'];
             } else {
                 return $this->appendNavigationText($responseText);
@@ -173,11 +174,11 @@ class UssdResponseGenerator {
     protected function appendNavigationText($responseText) {
 
         return $responseText
-                . "0. Go Back"
+                . "0. GO BACK"
                 . $this->lineBreak()
-                . "00. Main Menu"
+                . "00. MAIN MENU"
                 . $this->lineBreak()
-                . "000. Exit";
+                . "000. EXIT";
     }
 
     /**
