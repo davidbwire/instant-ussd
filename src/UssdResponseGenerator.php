@@ -143,7 +143,11 @@ class UssdResponseGenerator {
         }
         // check if we should append navigation text
         if ($appendNavigationText === true) {
-            return $this->appendNavigationText($responseText);
+            if (array_key_exists('navigation_text', $menuConfig)) {
+                return $responseText . $menuConfig['navigation_text'];
+            } else {
+                return $this->appendNavigationText($responseText);
+            }
         } else {
             return $responseText;
         }
