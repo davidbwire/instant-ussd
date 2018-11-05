@@ -139,7 +139,7 @@ class UssdResponseGenerator {
         }
         // see if menufooter is attached
         if ($menuFooter) {
-            $responseText = $responseText . $menuFooter . $this->lineBreak();
+            $responseText = $responseText . $menuFooter . $this->lineBreak() . $this->lineBreak();
         }
         // check if we should append navigation text
         if ($appendNavigationText === true) {
