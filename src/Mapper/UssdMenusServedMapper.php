@@ -44,6 +44,62 @@ class UssdMenusServedMapper extends TableGateway {
     }
 
     /**
+     * 
+     * @param string $phoneNumber
+     * @param int $howManyMinutesAgo
+     * @return false | array false if no recent session or recent session details array
+     */
+    public function hasRecentSession($phoneNumber, $howManyMinutesAgo = 30) {
+        $sql = $this->getSlaveSql();
+        $select = $sql->select()
+                ->where($this->getPredicate()->greaterThanOrEqualTo('create_time'
+                                , time() - (60 * $howManyMinutesAgo)))
+                ->where(['phone_number' => $phoneNumber,])
+                ->limit(1);
+        $result = $sql->prepareStatementForSqlObject($select)->execute();
+        if (!$result->count()) {
+            return false;
+        }
+        return $result->current();
+    }
+
+    /**
+     * 
+     * @param string $previousSessionId
+     * @param string $currentSessionId
+     * @return boolean
+     */
+    public function swapSession($previousSessionId, $currentSessionId) {
+        $sessionExists = $this->sessionExists();
+        if (!$sessionExists) {
+            return false;
+        }
+        $sql = $this->getSlaveSql();
+        $update = $sql->update()
+                ->set(['session_id' => $currentSessionId])
+                ->where(['session_id' => $previousSessionId,]);
+        $result = $sql->prepareStatementForSqlObject($update)
+                ->execute();
+        return (bool) $result->getAffectedRows();
+    }
+
+    /**
+     * 
+     * @param string $sessionId
+     * @return bool
+     */
+    private function sessionExists($sessionId) {
+        $sql = $this->getSlaveSql();
+        $select = $sql->select()
+                ->columns(['session_id'])
+                ->where(['session_id' => $sessionId])
+                ->limit(1);
+        $result = $sql->prepareStatementForSqlObject($select)
+                ->execute();
+        return (bool) $result->count();
+    }
+
+    /**
      * Returns a list of menus previously visited in LIFO order
      * 
      * @param string $ussdSessionId
