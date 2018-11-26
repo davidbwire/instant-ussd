@@ -71,7 +71,7 @@ class UssdMenusServedMapper extends TableGateway {
      * @return boolean
      */
     public function swapSession($previousSessionId, $currentSessionId) {
-        $sessionExists = $this->sessionExists();
+        $sessionExists = $this->sessionExists($previousSessionId);
         if (!$sessionExists) {
             return false;
         }
@@ -86,14 +86,14 @@ class UssdMenusServedMapper extends TableGateway {
 
     /**
      * 
-     * @param string $sessionId
+     * @param string $previousSessionId
      * @return bool
      */
-    private function sessionExists($sessionId) {
+    private function sessionExists($previousSessionId) {
         $sql = $this->getSlaveSql();
         $select = $sql->select()
                 ->columns(['session_id'])
-                ->where(['session_id' => $sessionId])
+                ->where(['session_id' => $previousSessionId])
                 ->limit(1);
         $result = $sql->prepareStatementForSqlObject($select)
                 ->execute();
