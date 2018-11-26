@@ -55,6 +55,7 @@ class UssdMenusServedMapper extends TableGateway {
                 ->where($this->getPredicate()->greaterThanOrEqualTo('create_time'
                                 , time() - (60 * $howManyMinutesAgo)))
                 ->where(['phone_number' => $phoneNumber,])
+                ->order('id DESC')
                 ->limit(1);
         $result = $sql->prepareStatementForSqlObject($select)->execute();
         if (!$result->count()) {
